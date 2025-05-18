@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: sans-serif; padding: 15px; }
+    label { display: block; margin-bottom: 5px; }
+    input[type='number'] { width: 50px; }
+  </style>
+</head>
+<body>
+  <h2>Adhkar Assistant Settings</h2>
+  <label>
+    Reminder Frequency (minutes):
+    <input id="interval" type="number" min="1">
+  </label>
+  <button onclick="saveSettings()">Save</button>
+
+  <h3>Enable/Disable Adhkar</h3>
+  <div id="dhikr-settings"></div>
+
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Main View -->
+    <div id="main-view">
+      <img src="assets/settings.svg" class="settings-icon" id="settings-icon" alt="Settings" title="Settings" />
+      <h3>Adhkar Assistant</h3>
+      <div id="dhikr-list"></div>
+      <button class="add-btn" id="add-custom-btn">Add Custom Adhkar</button>
+    </div>
+    <!-- Settings View -->
+    <div id="settings-view" style="display:none;">
+      <button class="back-btn" id="back-from-settings">&larr; Back</button>
+      <h3>Settings</h3>
+      <p>Settings content goes here.</p>
+    </div>
+    <!-- Add Custom View -->
+    <div id="add-custom-view" style="display:none;">
+      <button class="back-btn" id="back-from-add">&larr; Back</button>
+      <h3>Add Custom Adhkar</h3>
+      <form id="custom-dhikr-form">
+        <input type="text" id="custom-arabic" placeholder="Arabic" required><br>
+        <input type="text" id="custom-transliteration" placeholder="Transliteration" required><br>
+        <input type="text" id="custom-translation" placeholder="Translation"><br>
+        <button type="submit" class="add-btn">Add</button>
+      </form>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+  <script>
+    document.getElementById('dhikr-list').innerHTML = dhikrArray.map(renderDhikrItem).join('');
+  </script>
+</body>
+</html>

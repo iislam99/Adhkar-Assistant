@@ -1,0 +1,114 @@
+body {
+  font-family: sans-serif;
+  padding: 0;
+  margin: 0;
+  background: #fafafa;
+}
+.container {
+  border: 2px solid #222;
+  border-radius: 6px;
+  padding: 18px;
+  margin: 16px;
+  position: relative;
+  background: #fff;
+  min-width: 270px;
+  max-width: 320px;
+}
+.settings-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  opacity: 0.7;
+}
+h3 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-weight: 500;
+}
+.dhikr-item {
+  border: 2px solid #222;
+  border-radius: 0 4px 4px 0;
+  display: flex;
+  align-items: stretch;
+  background: #fff;
+  min-height: 60px;
+  flex: 1;
+}
+.dhikr-row {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 18px;
+}
+.dhikr-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+  margin-right: 0;
+}
+.dhikr-controls button {
+  width: 38px;
+  height: 50%;
+  font-size: 1.1em;
+  border: 2px solid #222;
+  border-right: none;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.2s;
+  border-radius: 0;
+}
+.dhikr-controls button:first-child {
+  border-bottom: none; /* Remove bottom border from top button */
+  border-radius: 4px 0 0 0;
+}
+.dhikr-controls button:last-child {
+  border-top: 2px solid #222;    /* Add single top border to bottom button */
+  border-radius: 0 0 0 4px;
+}
+.dhikr-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 0;
+}
+.arabic {
+  font-size: 1.3em;
+  margin-bottom: 2px;
+  font-family: 'Scheherazade', serif;
+}
+.transliteration {
+  font-size: 1em;
+  color: #b0b0b0;
+  margin-bottom: 0;
+}
+.dhikr-count {
+  border-left: 2px solid #222;
+  min-width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3em;
+  font-weight: 500;
+  background: #f5f5f5;
+}
+.add-btn {
+  width: 100%;
+  padding: 8px 0;
+  margin-top: 8px;
+  border: 2px solid #222;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.add-btn:hover {
+  background: #f0f0f0;
+}

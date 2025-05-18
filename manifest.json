@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Adhkar Assistant",
+  "version": "1.0",
+  "description": "An assistant to remind you to do your daily Adhkar.",
+  "permissions": ["storage", "alarms", "notifications"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "48": "assets/kaaba.png"
+  },
+  "options_page": "options.html"
+}
