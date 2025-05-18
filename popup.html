@@ -16,8 +16,15 @@
     <!-- Settings View -->
     <div id="settings-view" style="display:none;">
       <button class="back-btn" id="back-from-settings">&larr; Back</button>
-      <h3>Settings</h3>
-      <p>Settings content goes here.</p>
+      <h2>Adhkar Assistant Settings</h2>
+      <label>
+        Reminder Frequency (minutes):
+        <input id="interval" type="number" min="1">
+      </label>
+      <button onclick="saveSettings()">Save</button>
+
+      <h3>Enable/Disable Adhkar</h3>
+      <div id="dhikr-settings"></div>
     </div>
     <!-- Add Custom View -->
     <div id="add-custom-view" style="display:none;">
@@ -32,6 +39,7 @@
     </div>
   </div>
   <script src="popup.js"></script>
+  <script src="options.js"></script>
   <script>
     document.getElementById('dhikr-list').innerHTML = dhikrArray.map(renderDhikrItem).join('');
   </script>

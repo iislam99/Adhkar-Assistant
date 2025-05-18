@@ -112,3 +112,8 @@ h3 {
 .add-btn:hover {
   background: #f0f0f0;
 }
+
+#dhikr-settings label {
+  display: block;
+  margin: 6px 0;
+}
