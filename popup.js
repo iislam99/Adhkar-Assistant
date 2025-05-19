@@ -179,4 +179,6 @@ document.getElementById('interval').addEventListener('change', function () {
 
 
 // Initial render
+chrome.action.setBadgeText({ text: '' });
+chrome.action.setBadgeBackgroundColor({ color: [0, 0, 0, 0] });
 loadAndRender();

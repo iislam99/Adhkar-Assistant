@@ -26,5 +26,9 @@ chrome.alarms.onAlarm.addListener((alarm) => {
       message: randomMessage,
       priority: 2
     });
+
+    chrome.action.setBadgeText({ text: '1' });
+    chrome.action.setBadgeTextColor({ color: '#FFFFFF' });
+    chrome.action.setBadgeBackgroundColor({ color: '#FF0000' });
   }
 });
