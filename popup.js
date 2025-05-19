@@ -5,6 +5,7 @@ const defaultAdhkarList = [
   { text: 'La ilaha illallah', arabic: 'لا إله إلا الله', transliteration: 'La ilaha illallah', translation: 'There is no deity but Allah', enabled: false, count: 0 }
 ];
 
+
 function renderDhikrItem(dhikr, index) {
   return `
     <div class="dhikr-row" data-index="${index}">
@@ -58,7 +59,6 @@ function loadAndRender() {
 
 // Button handlers
 window.incrementDhikr = function(index) {
-  console.log('Incrementing index:', index, window.adhkarList[index]);
   window.adhkarList[index].count++;
   chrome.storage.sync.set({ adhkarList: window.adhkarList }, loadAndRender);
 };

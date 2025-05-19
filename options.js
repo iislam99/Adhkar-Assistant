@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.storage.sync.get(['reminderInterval', 'adhkarList'], (data) => {
     const intervalInput = document.getElementById('interval');
     intervalInput.value = data.reminderInterval || 180;
-    intervalInput.addEventListener('input', () => {
+    intervalInput.oninput = () => {
       const val = parseInt(intervalInput.value, 10);
       if (!isNaN(val) && val > 0) {
         chrome.storage.sync.set({ reminderInterval: val }, () => {
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         });
       }
-    });
+    };
 
     const list = data.adhkarList || defaultAdhkarList;
     const container = document.getElementById('dhikr-settings');
