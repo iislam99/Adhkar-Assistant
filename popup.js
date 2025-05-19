@@ -116,8 +116,12 @@ function showView(view) {
 }
 
 document.getElementById('settings-icon').addEventListener('click', function() {
+  chrome.storage.sync.get('reminderInterval', (data) => {
+    document.getElementById('interval').value = data.reminderInterval || 180;
+  });
   showView('settings');
 });
+
 
 document.getElementById('add-custom-btn').addEventListener('click', function() {
   showView('add');
@@ -159,6 +163,20 @@ document.getElementById('custom-dhikr-form').addEventListener('submit', function
     });
   });
 });
+
+// Handle instant reminder interval changes
+document.getElementById('interval').addEventListener('change', function () {
+  const interval = parseInt(this.value);
+  if (!isNaN(interval) && interval > 0) {
+    chrome.storage.sync.set({ reminderInterval: interval }, () => {
+      chrome.alarms.clearAll(() => {
+        chrome.alarms.create('adhkarReminder', { periodInMinutes: interval });
+        console.log(`Updated reminder interval to ${interval} minutes`);
+      });
+    });
+  }
+});
+
 
 // Initial render
 loadAndRender();
