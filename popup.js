@@ -68,11 +68,51 @@ window.decrementDhikr = function(index) {
   chrome.storage.sync.set({ adhkarList: window.adhkarList }, loadAndRender);
 };
 
+function setupSettingsView() {
+  const intervalInput = document.getElementById('interval');
+  const container = document.getElementById('dhikr-settings');
+
+  chrome.storage.sync.get(['reminderInterval', 'adhkarList'], (data) => {
+    const interval = data.reminderInterval || 180;
+    const adhkarList = data.adhkarList || defaultAdhkarList;
+
+    intervalInput.value = interval;
+    intervalInput.addEventListener('input', () => {
+      const val = parseInt(intervalInput.value, 10);
+      if (!isNaN(val) && val > 0) {
+        chrome.storage.sync.set({ reminderInterval: val }, () => {
+          chrome.runtime.sendMessage({ type: 'update-interval', interval: val });
+        });
+      }
+    });
+
+    container.innerHTML = '';
+    adhkarList.forEach((dhikr, i) => {
+      const label = document.createElement('label');
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = dhikr.enabled;
+      checkbox.addEventListener('change', () => {
+        adhkarList[i].enabled = checkbox.checked;
+        chrome.storage.sync.set({ adhkarList }, loadAndRender); // Update UI on toggle
+      });
+      label.appendChild(checkbox);
+      label.append(` ${dhikr.text}`);
+      container.appendChild(label);
+    });
+  });
+}
+
+
 // View handling
 function showView(view) {
   document.getElementById('main-view').style.display = view === 'main' ? '' : 'none';
   document.getElementById('settings-view').style.display = view === 'settings' ? '' : 'none';
   document.getElementById('add-custom-view').style.display = view === 'add' ? '' : 'none';
+
+  if (view === 'settings') {
+    setupSettingsView();
+  }
 }
 
 document.getElementById('settings-icon').addEventListener('click', function() {

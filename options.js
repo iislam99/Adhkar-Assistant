@@ -7,35 +7,37 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   chrome.storage.sync.get(['reminderInterval', 'adhkarList'], (data) => {
-    document.getElementById('interval').value = data.reminderInterval || 180;
+    const intervalInput = document.getElementById('interval');
+    intervalInput.value = data.reminderInterval || 180;
+    intervalInput.addEventListener('input', () => {
+      const val = parseInt(intervalInput.value, 10);
+      if (!isNaN(val) && val > 0) {
+        chrome.storage.sync.set({ reminderInterval: val }, () => {
+          chrome.alarms.clearAll(() => {
+            chrome.alarms.create('adhkarReminder', { periodInMinutes: val });
+          });
+        });
+      }
+    });
+
     const list = data.adhkarList || defaultAdhkarList;
     const container = document.getElementById('dhikr-settings');
-    container.innerHTML = ''; // Clear first, in case of reload
+    container.innerHTML = '';
 
     list.forEach((dhikr, i) => {
       const label = document.createElement('label');
-      label.style.display = 'block'; // Make checkboxes vertical, optional styling
 
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.checked = dhikr.enabled;
-      checkbox.onchange = () => {
-        dhikr.enabled = checkbox.checked;
-      };
-
+      checkbox.addEventListener('change', () => {
+        list[i].enabled = checkbox.checked;
+        chrome.storage.sync.set({ adhkarList: list });
+      });
 
       label.appendChild(checkbox);
       label.append(` ${dhikr.text}`);
       container.appendChild(label);
     });
-    window.saveSettings = () => {
-      const interval = parseInt(document.getElementById('interval').value);
-      chrome.storage.sync.set({ reminderInterval: interval, adhkarList: list }, () => {
-        chrome.alarms.clearAll(() => {
-          chrome.alarms.create('adhkarReminder', { periodInMinutes: interval });
-          alert('Settings saved!');
-        });
-      });
-    };
   });
 });
