@@ -1,14 +1,8 @@
-const defaultAdhkarList = [
-  { text: 'SubhanAllah', arabic: 'سبحان الله', transliteration: 'SubhanAllah', translation: 'Glory be to Allah', enabled: true, count: 0 },
-  { text: 'Alhamdulillah', arabic: 'الحمد لله', transliteration: 'Alhamdulillah', translation: 'All praise is due to Allah', enabled: true, count: 0 },
-  { text: 'Allahu Akbar', arabic: 'الله أكبر', transliteration: 'Allahu Akbar', translation: 'Allah is the Greatest', enabled: true, count: 0 },
-  { text: 'La ilaha illallah', arabic: 'لا إله إلا الله', transliteration: 'La ilaha illallah', translation: 'There is no deity but Allah', enabled: false, count: 0 }
-];
+import { defaultAdhkarList, renderSettingsView } from './shared.js';
 
-
-function renderDhikrItem(dhikr, index) {
+function renderDhikrRow(dhikr, index) {
   return `
-    <div class="dhikr-row" data-index="${index}">
+    <div class="dhikr-row" data-index="${index}" title="${dhikr.translation}">
       <div class="dhikr-controls">
         <button class="increment-btn">+</button>
         <button class="decrement-btn">-</button>
@@ -24,13 +18,17 @@ function renderDhikrItem(dhikr, index) {
   `;
 }
 
-
-function renderDhikrList(list) {
+function renderAdhkarList(list) {
   const container = document.getElementById('dhikr-list');
+  if (!container) {
+    console.warn("#dhikr-list not found in DOM");
+    return;
+  }
+
   container.innerHTML = list
     .map((dhikr, i) => ({ dhikr, i }))
     .filter(item => item.dhikr.enabled)
-    .map(item => renderDhikrItem(item.dhikr, item.i))
+    .map(item => renderDhikrRow(item.dhikr, item.i))
     .join('');
 
   // Attach event listeners for increment and decrement buttons
@@ -45,94 +43,47 @@ function renderDhikrList(list) {
   });
 }
 
-
-// Load and render from storage
+// Reload and render adhkar list
 function loadAndRender() {
-  chrome.storage.sync.get(['adhkarList'], (data) => {
-    const list = (data.adhkarList || defaultAdhkarList).map(dhikr =>
+  chrome.storage.sync.get(['ADHKAR_LIST'], (data) => {
+    const list = (data.ADHKAR_LIST || defaultAdhkarList).map(dhikr =>
       ({ ...dhikr, count: dhikr.count ?? 0 })
     );
-    window.adhkarList = list; // Store globally for button handlers
-    renderDhikrList(list);
+    window.ADHKAR_LIST = list; // Store globally for button handlers
+    renderAdhkarList(list);
   });
 }
 
 // Button handlers
 window.incrementDhikr = function(index) {
-  window.adhkarList[index].count++;
-  chrome.storage.sync.set({ adhkarList: window.adhkarList }, loadAndRender);
+  window.ADHKAR_LIST[index].count++;
+  chrome.storage.sync.set({ ADHKAR_LIST: window.ADHKAR_LIST }, loadAndRender);
 };
 
 window.decrementDhikr = function(index) {
-  if (window.adhkarList[index].count > 0) window.adhkarList[index].count--;
-  chrome.storage.sync.set({ adhkarList: window.adhkarList }, loadAndRender);
+  if (window.ADHKAR_LIST[index].count > 0) window.ADHKAR_LIST[index].count--;
+  chrome.storage.sync.set({ ADHKAR_LIST: window.ADHKAR_LIST }, loadAndRender);
 };
-
-function setupSettingsView() {
-  const intervalInput = document.getElementById('interval');
-  const container = document.getElementById('dhikr-settings');
-
-  chrome.storage.sync.get(['reminderInterval', 'adhkarList'], (data) => {
-    const interval = data.reminderInterval || 180;
-    const adhkarList = data.adhkarList || defaultAdhkarList;
-
-    intervalInput.value = interval;
-    intervalInput.addEventListener('input', () => {
-      const val = parseInt(intervalInput.value, 10);
-      if (!isNaN(val) && val > 0) {
-        chrome.storage.sync.set({ reminderInterval: val }, () => {
-          chrome.runtime.sendMessage({ type: 'update-interval', interval: val });
-        });
-      }
-    });
-
-    container.innerHTML = '';
-    adhkarList.forEach((dhikr, i) => {
-      const label = document.createElement('label');
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.checked = dhikr.enabled;
-      checkbox.addEventListener('change', () => {
-        adhkarList[i].enabled = checkbox.checked;
-        chrome.storage.sync.set({ adhkarList }, loadAndRender); // Update UI on toggle
-      });
-      label.appendChild(checkbox);
-      label.append(` ${dhikr.text}`);
-      container.appendChild(label);
-    });
-  });
-}
-
 
 // View handling
 function showView(view) {
   document.getElementById('main-view').style.display = view === 'main' ? '' : 'none';
   document.getElementById('settings-view').style.display = view === 'settings' ? '' : 'none';
   document.getElementById('add-custom-view').style.display = view === 'add' ? '' : 'none';
-
-  if (view === 'settings') {
-    setupSettingsView();
-  }
 }
 
 document.getElementById('settings-icon').addEventListener('click', function() {
-  chrome.storage.sync.get('reminderInterval', (data) => {
-    document.getElementById('interval').value = data.reminderInterval || 180;
-  });
+  renderSettingsView();
   showView('settings');
 });
 
+document.getElementById('back-from-settings').addEventListener('click', function() {
+  loadAndRender();
+  showView('main');
+});
 
 document.getElementById('add-custom-btn').addEventListener('click', function() {
   showView('add');
-});
-
-document.getElementById('back-from-settings').addEventListener('click', function() {
-  showView('main');
-});
-
-document.getElementById('back-from-add').addEventListener('click', function() {
-  showView('main');
 });
 
 // Handle custom dhikr form
@@ -141,10 +92,10 @@ document.getElementById('custom-dhikr-form').addEventListener('submit', function
   const arabic = document.getElementById('custom-arabic').value.trim();
   const transliteration = document.getElementById('custom-transliteration').value.trim();
   const translation = document.getElementById('custom-translation').value.trim();
-  if (!arabic || !transliteration) return;
+  if (!arabic || !transliteration || !translation) return;
 
-  chrome.storage.sync.get(['adhkarList'], (data) => {
-    const list = data.adhkarList || defaultAdhkarList;
+  chrome.storage.sync.get(['ADHKAR_LIST'], (data) => {
+    const list = data.ADHKAR_LIST || defaultAdhkarList;
     list.push({
       text: transliteration,
       arabic,
@@ -153,10 +104,9 @@ document.getElementById('custom-dhikr-form').addEventListener('submit', function
       enabled: true,
       count: 0
     });
-    chrome.storage.sync.set({ adhkarList: list }, () => {
+    chrome.storage.sync.set({ ADHKAR_LIST: list }, () => {
       showView('main');
       loadAndRender();
-      // Optionally clear form fields
       document.getElementById('custom-arabic').value = '';
       document.getElementById('custom-transliteration').value = '';
       document.getElementById('custom-translation').value = '';
@@ -164,21 +114,16 @@ document.getElementById('custom-dhikr-form').addEventListener('submit', function
   });
 });
 
-// Handle instant reminder interval changes
-document.getElementById('interval').addEventListener('change', function () {
-  const interval = parseInt(this.value);
-  if (!isNaN(interval) && interval > 0) {
-    chrome.storage.sync.set({ reminderInterval: interval }, () => {
-      chrome.alarms.clearAll(() => {
-        chrome.alarms.create('adhkarReminder', { periodInMinutes: interval });
-        console.log(`Updated reminder interval to ${interval} minutes`);
-      });
-    });
-  }
+document.getElementById('back-from-add').addEventListener('click', function() {
+  showView('main');
+  document.getElementById('custom-arabic').value = '';
+  document.getElementById('custom-transliteration').value = '';
+  document.getElementById('custom-translation').value = '';
 });
 
-
 // Initial render
-chrome.action.setBadgeText({ text: '' });
-chrome.action.setBadgeBackgroundColor({ color: [0, 0, 0, 0] });
-loadAndRender();
+document.addEventListener('DOMContentLoaded', function () {
+  chrome.action.setBadgeText({ text: '' });
+  chrome.action.setBadgeBackgroundColor({ color: [0, 0, 0, 0] });
+  loadAndRender();
+});

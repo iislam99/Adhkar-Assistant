@@ -1,12 +1,12 @@
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.get(['reminderInterval'], (data) => {
-    const interval = data.reminderInterval || 180; // default: every 3 hours
-    chrome.alarms.create('adhkarReminder', { periodInMinutes: interval });
+  chrome.storage.sync.get(['REMINDER_INTERVAL'], (data) => {
+    const interval = data.REMINDER_INTERVAL || 180; // default: every 3 hours
+    chrome.alarms.create('ADHKAR_REMINDER', { periodInMinutes: interval });
   });
 });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === 'adhkarReminder') {
+  if (alarm.name === 'ADHKAR_REMINDER') {
     const messages = [
       "Take a moment for your daily Adhkar. ✨",
       "Have you remembered Allah today? 🕋",

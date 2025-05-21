@@ -11,8 +11,9 @@
       <img src="assets/settings.svg" class="settings-icon" id="settings-icon" alt="Settings" title="Settings" />
       <h3>Adhkar Assistant</h3>
       <div id="dhikr-list"></div>
-      <button class="add-btn" id="add-custom-btn">Add Custom Adhkar</button>
+      <button class="add-btn" id="add-custom-btn">Add Custom Dhikr</button>
     </div>
+
     <!-- Settings View -->
     <div id="settings-view" style="display:none;">
       <button class="back-btn" id="back-from-settings">&larr; Back</button>
@@ -24,22 +25,19 @@
       <h2>Toggle Adhkar</h2>
       <div id="dhikr-settings"></div>
     </div>
-    <!-- Add Custom View -->
+
+    <!-- Add Custom Dhikr View -->
     <div id="add-custom-view" style="display:none;">
       <button class="back-btn" id="back-from-add">&larr; Back</button>
-      <h3>Add Custom Adhkar</h3>
+      <h3>Add Custom Dhikr</h3>
       <form id="custom-dhikr-form">
         <input type="text" id="custom-arabic" placeholder="Arabic" required><br>
         <input type="text" id="custom-transliteration" placeholder="Transliteration" required><br>
-        <input type="text" id="custom-translation" placeholder="Translation"><br>
+        <input type="text" id="custom-translation" placeholder="Translation" required><br>
         <button type="submit" class="add-btn">Add</button>
       </form>
     </div>
   </div>
-  <script src="popup.js"></script>
-  <script src="options.js"></script>
-  <script>
-    document.getElementById('dhikr-list').innerHTML = dhikrArray.map(renderDhikrItem).join('');
-  </script>
+  <script type="module" src="popup.js"></script>
 </body>
 </html>
