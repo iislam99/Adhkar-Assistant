@@ -54,6 +54,16 @@ export function renderSettingsView() {
       heading.textContent = title;
       container.appendChild(heading);
 
+      if (list.length === 0 && deletable) {
+        const noCustomMsg = document.createElement('p');
+        noCustomMsg.textContent = 'No custom adhkar found';
+        noCustomMsg.style.fontStyle = 'italic';
+        noCustomMsg.style.textAlign = 'center';
+        noCustomMsg.style.color = '#b5bac1';
+        container.appendChild(noCustomMsg);
+        return;
+      }
+
       list.forEach((dhikr, i) => {
         const wrapper = document.createElement('div');
         wrapper.classList.add('dhikr-toggle-wrapper');
@@ -91,7 +101,6 @@ export function renderSettingsView() {
         label.appendChild(dhikrContainer);
         wrapper.appendChild(label);
 
-        // Add delete button if it's a custom dhikr
         if (deletable) {
           const deleteBtn = document.createElement('button');
           deleteBtn.classList.add('delete-dhikr-btn');
@@ -113,6 +122,7 @@ export function renderSettingsView() {
         container.appendChild(wrapper);
       });
     };
+
 
     renderSection('Default Adhkar', defaultAdhkar, false);
     renderSection('Custom Adhkar', customAdhkar, true);
