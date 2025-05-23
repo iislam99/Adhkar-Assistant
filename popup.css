@@ -43,12 +43,23 @@ body {
   opacity: 1;
 }
 
-h1, h2, h3 {
+h1, h3 {
   text-align: center;
   margin-top: 0;
   margin-bottom: 18px;
   font-weight: 500;
   color: #ffffff;
+}
+
+h2 {
+  text-align: center;
+  /* font-size: 1.1em; */
+  font-weight: bold;
+  margin-top: 20px;
+  /* margin-bottom: 10px; */
+  color: #ffffff;
+  /* border-bottom: 1px solid #444; */
+  /* padding-bottom: 4px; */
 }
 
 .dhikr-item {
@@ -177,7 +188,13 @@ h1, h2, h3 {
 }
 
 .dhikr-toggle-wrapper {
-  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em;
+  border-top: 1px solid #444;
+  position: relative;
+  gap: 1em;
 }
 
 label.dhikr-toggle-label {
@@ -189,14 +206,13 @@ label.dhikr-toggle-label {
 }
 
 input.dhikr-toggle-checkbox {
-  margin-top: 1em;
+  /* margin-top: 1em; */
   flex-shrink: 0;
 }
 
 div.dhikr-toggle-container {
   display: flex;
   flex-direction: column;
-  margin-top: 1em;
 }
 
 .dhikr-toggle-arabic {
@@ -207,6 +223,28 @@ div.dhikr-toggle-container {
 .dhikr-toggle-translation {
   color: #b5bac1;
 }
+
+.dhikr-toggle-label {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  gap: 1em;
+}
+
+.delete-dhikr-btn {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  visibility: hidden;
+  padding: 0;
+  margin-left: auto;
+}
+
+.dhikr-toggle-wrapper:hover .delete-dhikr-btn {
+  visibility: visible;
+}
+
 
 input[type="text"] {
   background-color: #2f3136;

@@ -38,42 +38,84 @@ export function renderSettingsView() {
     };
 
     container.innerHTML = '';
-    adhkarList.forEach((dhikr, i) => {
-      const wrapper = document.createElement('div');
-      wrapper.classList.add('dhikr-toggle-wrapper');
 
-      const label = document.createElement('label');
-      label.classList.add('dhikr-toggle-label');
+    // Split adhkar into default and custom groups
+    const isCustomDhikr = dhikr => !defaultAdhkarList.some(def =>
+      def.arabic === dhikr.arabic &&
+      def.transliteration === dhikr.transliteration &&
+      def.translation === dhikr.translation
+    );
 
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.checked = dhikr.enabled;
-      checkbox.classList.add('dhikr-toggle-checkbox');
+    const defaultAdhkar = adhkarList.filter(dhikr => !isCustomDhikr(dhikr));
+    const customAdhkar = adhkarList.filter(dhikr => isCustomDhikr(dhikr));
 
-      checkbox.addEventListener('change', () => {
-        adhkarList[i].enabled = checkbox.checked;
-        chrome.storage.sync.set({ ADHKAR_LIST: adhkarList });
+    const renderSection = (title, list, deletable = false) => {
+      const heading = document.createElement('h2');
+      heading.textContent = title;
+      container.appendChild(heading);
+
+      list.forEach((dhikr, i) => {
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('dhikr-toggle-wrapper');
+
+        const label = document.createElement('label');
+        label.classList.add('dhikr-toggle-label');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = dhikr.enabled;
+        checkbox.classList.add('dhikr-toggle-checkbox');
+        checkbox.addEventListener('change', () => {
+          const index = adhkarList.indexOf(dhikr);
+          if (index !== -1) {
+            adhkarList[index].enabled = checkbox.checked;
+            chrome.storage.sync.set({ ADHKAR_LIST: adhkarList });
+          }
+        });
+
+        const dhikrContainer = document.createElement('div');
+        dhikrContainer.classList.add('dhikr-toggle-container');
+
+        const arabicRow = document.createElement('div');
+        arabicRow.classList.add('dhikr-toggle-arabic');
+        arabicRow.textContent = `${dhikr.arabic} | ${dhikr.transliteration}`;
+
+        const translationRow = document.createElement('div');
+        translationRow.classList.add('dhikr-toggle-translation');
+        translationRow.textContent = dhikr.translation || '';
+
+        dhikrContainer.appendChild(arabicRow);
+        dhikrContainer.appendChild(translationRow);
+
+        label.appendChild(checkbox);
+        label.appendChild(dhikrContainer);
+        wrapper.appendChild(label);
+
+        // Add delete button if it's a custom dhikr
+        if (deletable) {
+          const deleteBtn = document.createElement('button');
+          deleteBtn.classList.add('delete-dhikr-btn');
+          deleteBtn.textContent = '➖';
+          deleteBtn.title = 'Delete this dhikr';
+
+          deleteBtn.addEventListener('click', () => {
+            const index = adhkarList.indexOf(dhikr);
+            if (index !== -1) {
+              const newList = [...adhkarList.slice(0, index), ...adhkarList.slice(index + 1)];
+              chrome.storage.sync.set({ ADHKAR_LIST: newList }, renderSettingsView);
+            }
+          });
+
+          wrapper.appendChild(deleteBtn);
+          wrapper.classList.add('hoverable-delete');
+        }
+
+        container.appendChild(wrapper);
       });
+    };
 
-      label.appendChild(checkbox);
-
-      const dhikrContainer = document.createElement('div');
-      dhikrContainer.classList.add('dhikr-toggle-container');
-
-      const arabicRow = document.createElement('div');
-      arabicRow.classList.add('dhikr-toggle-arabic');
-      arabicRow.textContent = `${dhikr.arabic} | ${dhikr.transliteration}`;
-
-      const translationRow = document.createElement('div');
-      translationRow.classList.add('dhikr-toggle-translation');
-      translationRow.textContent = dhikr.translation || '';
-
-      dhikrContainer.appendChild(arabicRow);
-      dhikrContainer.appendChild(translationRow);
-
-      label.appendChild(dhikrContainer);
-      wrapper.appendChild(label);
-      container.appendChild(wrapper);
-    });
+    renderSection('Default Adhkar', defaultAdhkar, false);
+    renderSection('Custom Adhkar', customAdhkar, true);
   });
 }
+
