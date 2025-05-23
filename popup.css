@@ -97,7 +97,6 @@ h3 {
   z-index: 1;
 }
 
-
 .dhikr-controls button:active {
   transform: scale(0.98);
   background: #393c43;
@@ -206,4 +205,42 @@ div.dhikr-toggle-container {
 
 .dhikr-toggle-translation {
   color: #b5bac1;
+}
+
+input[type="text"] {
+  background-color: #2f3136;
+  border: 1.5px solid #202225;
+  border-radius: 4px;
+  color: #dcddde;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+  margin-bottom: 12px;
+}
+
+/* Focus state with blue glow */
+input[type="text"]:focus {
+  border-color: #5865f2;
+  box-shadow: 0 0 6px 2px rgba(88, 101, 242, 0.5);
+  background-color: #36393f;
+  color: #ffffff;
+}
+
+/* Placeholder styling */
+input[type="text"]::placeholder {
+  color: #72767d;
+  opacity: 1;
+  /* For Firefox */
+}
+
+/* Disabled input styling */
+input[type="text"]:disabled {
+  background-color: #202225;
+  color: #4f545c;
+  cursor: not-allowed;
 }
