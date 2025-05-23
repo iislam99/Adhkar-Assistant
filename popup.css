@@ -2,18 +2,21 @@ body {
   font-family: sans-serif;
   padding: 0;
   margin: 0;
-  background: #fafafa;
+  background: #1e1f22;
+  color: #f2f3f5;
 }
+
 .container {
-  border: 2px solid #222;
+  border: 2px solid #2b2d31;
   border-radius: 6px;
   padding: 18px;
   margin: 16px;
   position: relative;
-  background: #fff;
+  background: #2b2d31;
   min-width: 270px;
   max-width: 320px;
 }
+
 .settings-icon {
   position: absolute;
   top: 10px;
@@ -21,28 +24,49 @@ body {
   cursor: pointer;
   width: 22px;
   height: 22px;
+}
+
+.settings-svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  stroke: #ffffff;
+  transition: stroke 0.2s ease, opacity 0.2s ease;
   opacity: 0.7;
 }
+
+.settings-icon:hover .settings-svg {
+  stroke: #5865f2;
+  opacity: 1;
+}
+
 h3 {
   text-align: center;
   margin-top: 0;
   margin-bottom: 18px;
   font-weight: 500;
+  color: #ffffff;
 }
+
 .dhikr-item {
-  border: 2px solid #222;
+  border: 2px solid #2b2d31;
   border-radius: 0 4px 4px 0;
   display: flex;
   align-items: stretch;
-  background: #fff;
+  background: #313338;
   min-height: 60px;
   flex: 1;
 }
+
 .dhikr-row {
   display: flex;
   align-items: stretch;
   margin-bottom: 18px;
 }
+
 .dhikr-controls {
   display: flex;
   flex-direction: column;
@@ -50,26 +74,45 @@ h3 {
   align-items: stretch;
   margin-right: 0;
 }
+
 .dhikr-controls button {
   width: 38px;
   height: 50%;
   font-size: 1.1em;
-  border: 2px solid #222;
+  border: 2px solid #2b2d31;
   border-right: none;
-  background: #fff;
+  background: #3b3d43;
+  color: #ffffff;
   cursor: pointer;
   outline: none;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.1s;
   border-radius: 0;
 }
+
+.dhikr-controls button:hover {
+  background: #44474e;
+  border-color: #5865f2;
+  outline-offset: -2px;
+  outline: 2px solid #5865f2;
+  z-index: 1;
+}
+
+
+.dhikr-controls button:active {
+  transform: scale(0.98);
+  background: #393c43;
+}
+
 .dhikr-controls button:first-child {
-  border-bottom: none; /* Remove bottom border from top button */
+  border-bottom: none;
   border-radius: 4px 0 0 0;
 }
+
 .dhikr-controls button:last-child {
-  border-top: 2px solid #222;    /* Add single top border to bottom button */
+  border-top: 2px solid #2b2d31;
   border-radius: 0 0 0 4px;
 }
+
 .dhikr-content {
   flex: 1;
   display: flex;
@@ -79,44 +122,59 @@ h3 {
   text-align: center;
   padding: 6px 0;
 }
+
 .arabic {
   font-size: 1.3em;
   margin-bottom: 2px;
   font-family: 'Scheherazade', serif;
+  color: #ffffff;
 }
+
 .transliteration {
   font-size: 1em;
-  color: #b0b0b0;
+  color: #b5bac1;
   margin-bottom: 0;
 }
+
 .dhikr-count {
-  border-left: 2px solid #222;
+  border-left: 2px solid #2b2d31;
   min-width: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.3em;
   font-weight: 500;
-  background: #f5f5f5;
+  background: #3b3d43;
+  color: #ffffff;
 }
+
 .add-btn {
   width: 100%;
   padding: 8px 0;
   margin-top: 8px;
-  border: 2px solid #222;
+  border: 2px solid #2b2d31;
   border-radius: 4px;
-  background: #fff;
+  background: #3b3d43;
   font-size: 1em;
+  color: #ffffff;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.1s, border-color 0.2s;
 }
+
 .add-btn:hover {
-  background: #f0f0f0;
+  background: #44474e;
+  border-color: #5865f2;
+}
+
+.add-btn:active {
+  transform: scale(0.98);
+  background: #393c43;
 }
 
 #dhikr-settings label {
   display: block;
   margin: 6px 0;
+  color: #ffffff;
 }
 
 .dhikr-toggle-wrapper {
@@ -128,6 +186,7 @@ label.dhikr-toggle-label {
   flex-direction: row;
   align-items: flex-start;
   gap: 0.5em;
+  color: #ffffff;
 }
 
 input.dhikr-toggle-checkbox {
@@ -142,8 +201,9 @@ div.dhikr-toggle-container {
 
 .dhikr-toggle-arabic {
   font-weight: bold;
+  color: #ffffff;
 }
 
 .dhikr-toggle-translation {
-  color: #666;
+  color: #b5bac1;
 }
