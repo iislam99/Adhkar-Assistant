@@ -43,7 +43,7 @@ body {
   opacity: 1;
 }
 
-h3 {
+h1, h2, h3 {
   text-align: center;
   margin-top: 0;
   margin-bottom: 18px;
@@ -189,13 +189,14 @@ label.dhikr-toggle-label {
 }
 
 input.dhikr-toggle-checkbox {
-  margin-top: 4px;
+  margin-top: 1em;
   flex-shrink: 0;
 }
 
 div.dhikr-toggle-container {
   display: flex;
   flex-direction: column;
+  margin-top: 1em;
 }
 
 .dhikr-toggle-arabic {
@@ -223,7 +224,6 @@ input[type="text"] {
   margin-bottom: 12px;
 }
 
-/* Focus state with blue glow */
 input[type="text"]:focus {
   border-color: #5865f2;
   box-shadow: 0 0 6px 2px rgba(88, 101, 242, 0.5);
@@ -231,16 +231,40 @@ input[type="text"]:focus {
   color: #ffffff;
 }
 
-/* Placeholder styling */
 input[type="text"]::placeholder {
   color: #72767d;
   opacity: 1;
-  /* For Firefox */
 }
 
-/* Disabled input styling */
 input[type="text"]:disabled {
   background-color: #202225;
   color: #4f545c;
   cursor: not-allowed;
 }
+
+.back-btn {
+  background: #3b3d43;
+  border: 2px solid #2b2d31;
+  border-radius: 4px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 0.95em;
+  padding: 6px 12px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  transition: background 0.2s, transform 0.1s, border-color 0.2s;
+  width: auto;
+  margin: 0;
+}
+
+.back-btn:hover {
+  background: #44474e;
+  border-color: #5865f2;
+}
+
+.back-btn:active {
+  transform: scale(0.98);
+  background: #393c43;
+}
+
