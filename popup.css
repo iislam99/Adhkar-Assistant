@@ -76,6 +76,7 @@ h3 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   padding: 6px 0;
 }
 .arabic {
@@ -116,4 +117,33 @@ h3 {
 #dhikr-settings label {
   display: block;
   margin: 6px 0;
+}
+
+.dhikr-toggle-wrapper {
+  margin-bottom: 1em;
+}
+
+label.dhikr-toggle-label {
+  display: flex !important;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+
+input.dhikr-toggle-checkbox {
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+div.dhikr-toggle-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.dhikr-toggle-arabic {
+  font-weight: bold;
+}
+
+.dhikr-toggle-translation {
+  color: #666;
 }
