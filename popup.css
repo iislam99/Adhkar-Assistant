@@ -105,7 +105,7 @@ h1, h2, h3 {
 .dhikr-row {
   display: flex;
   align-items: stretch;
-  margin-top: 18px;
+  margin-bottom: 18px;
 }
 
 .dhikr-controls {
@@ -192,7 +192,6 @@ h1, h2, h3 {
 .add-btn {
   width: 100%;
   padding: 8px 0;
-  margin-top: 8px;
   border: 2px solid #2b2d31;
   border-radius: 4px;
   background: #3b3d43;
@@ -229,7 +228,7 @@ h1, h2, h3 {
 label {
   display: inline-block;
   flex-direction: column;
-  color: #dcddde;
+  color: #ffffff;
   margin-right: 0.5em;
 
   margin-bottom: 12px;
@@ -456,4 +455,14 @@ input[type="text"]:disabled {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #4752c4;
+}
+
+/* STATS */
+#dhikr-select {
+  max-width: 100%;
+  white-space: nowrap;        /* prevent option text from wrapping */
+  overflow-x: auto;           /* enable horizontal scroll */
+  overflow-y: auto;           /* keep vertical scroll if needed */
+  display: block;
+  box-sizing: border-box;
 }

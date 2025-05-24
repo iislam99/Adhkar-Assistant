@@ -1,4 +1,5 @@
 import { defaultAdhkarList, handleCustomDhikrFormSubmit, renderSettingsView } from './shared.js';
+import { renderStatsView } from './stats.js';
 
 function renderDhikrRow(dhikr, index) {
   return `
@@ -55,13 +56,42 @@ function loadAndRender() {
 }
 
 // Button handlers
+function logDhikr(dhikrName, operation) {
+  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  
+  chrome.storage.sync.get(['stats'], ({ stats = {} }) => {
+    if (!stats[dhikrName]) {
+      stats[dhikrName] = {};
+    }
+
+    if (!stats[dhikrName][today]) {
+      stats[dhikrName][today] = 0;
+    }
+
+    if (operation === 'increment') {
+      stats[dhikrName][today] += 1;
+    }
+    else if (operation === 'decrement' && stats[dhikrName][today] > 0) {
+      stats[dhikrName][today] -= 1;
+    }
+
+    chrome.storage.sync.set({ stats }, () => {
+      console.log(`Logged 1 count for "${dhikrName}" on ${today}. Total: ${stats[dhikrName][today]}`);
+    });
+  });
+}
+
 window.incrementDhikr = function(index) {
   window.ADHKAR_LIST[index].count++;
+  logDhikr(window.ADHKAR_LIST[index].arabic, 'increment');
   chrome.storage.sync.set({ ADHKAR_LIST: window.ADHKAR_LIST }, loadAndRender);
 };
 
 window.decrementDhikr = function(index) {
-  if (window.ADHKAR_LIST[index].count > 0) window.ADHKAR_LIST[index].count--;
+  if (window.ADHKAR_LIST[index].count > 0) {
+    logDhikr(window.ADHKAR_LIST[index].arabic, 'decrement');
+    window.ADHKAR_LIST[index].count--;
+  }
   chrome.storage.sync.set({ ADHKAR_LIST: window.ADHKAR_LIST }, loadAndRender);
 };
 
@@ -70,6 +100,7 @@ function showView(view) {
   document.getElementById('main-view').style.display = view === 'main' ? '' : 'none';
   document.getElementById('settings-view').style.display = view === 'settings' ? '' : 'none';
   document.getElementById('add-custom-view').style.display = view === 'add' ? '' : 'none';
+  document.getElementById('stats-view').style.display = view === 'stats' ? '' : 'none';
 }
 
 document.getElementById('settings-icon').addEventListener('click', function() {
@@ -82,6 +113,16 @@ document.getElementById('back-from-settings').addEventListener('click', function
   showView('main');
 });
 
+document.getElementById('back-from-stats').addEventListener('click', function() {
+  loadAndRender();
+  showView('main');
+});
+
+document.getElementById('stats-btn').addEventListener('click', function() {
+  renderStatsView();
+  showView('stats');
+});
+
 document.getElementById('add-custom-btn').addEventListener('click', function() {
   showView('add');
 });
@@ -92,7 +133,7 @@ handleCustomDhikrFormSubmit(() => {
 });
 
 document.getElementById('back-from-add').addEventListener('click', function() {
-  showView('main');
+  showView('settings');
 });
 
 // Initial render
@@ -101,3 +142,5 @@ document.addEventListener('DOMContentLoaded', function () {
   chrome.action.setBadgeBackgroundColor({ color: [0, 0, 0, 0] });
   loadAndRender();
 });
+
+loadAndRender();

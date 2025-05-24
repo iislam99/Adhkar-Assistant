@@ -11,6 +11,7 @@ export const defaultAdhkarList = [
   { transliteration: 'Rabbana atiq riqabana min an-nar', arabic: 'ربنا اعتق رقابنا من النار', translation: 'Our Lord, save our necks from the Fire', enabled: false, count: 0, default: true },
   { transliteration: 'Allahumma inni as\'aluka al-Jannah', arabic: 'اللهم اني اسالك الجنة', translation: 'O Allah, I ask You for Paradise', enabled: false, count: 0, default: true },
   { transliteration: 'Allahumma inni a\'udhu bika min ʿadhabil-qabr', arabic: 'اللهم إني أعوذ بك من عذاب القبر', translation: 'O Allah, I seek refuge in You from the punishment of the grave', enabled: false, count: 0, default: true },
+  { transliteration: 'La ilaha illallah wahdahu la sharika lahu, lahul mulku walahul hamdu wahuwa ala kulli shay in qadir', arabic: 'لا اله الا الله وحده لا شريك له له الملك وله الحمد وهو على كل شيء قدير', translation: 'There is no god but Allah, alone, without partner. His is the dominion and His is the praise, and He is over all things competent.', enabled: false, count: 0, default: true },
 ];
 
 export function handleCustomDhikrFormSubmit(onComplete = () => {}) {
