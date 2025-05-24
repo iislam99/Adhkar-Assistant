@@ -93,9 +93,6 @@ handleCustomDhikrFormSubmit(() => {
 
 document.getElementById('back-from-add').addEventListener('click', function() {
   showView('main');
-  document.getElementById('custom-arabic').value = '';
-  document.getElementById('custom-transliteration').value = '';
-  document.getElementById('custom-translation').value = '';
 });
 
 // Initial render

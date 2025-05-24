@@ -39,7 +39,7 @@ export function handleCustomDhikrFormSubmit(onComplete = () => {}) {
 
       chrome.storage.sync.set({ ADHKAR_LIST: list }, () => {
         onComplete(); // Callback to allow context-specific behavior
-        form.reset(); // Reset form fields
+        form.reset();
       });
     });
   });
@@ -86,7 +86,7 @@ export function renderSettingsView() {
       }
 
       const listWrapper = document.createElement('div');
-      listWrapper.classList.add('dhikr-toggle-list'); // Add top border here
+      listWrapper.classList.add('dhikr-toggle-list');
 
       list.forEach((dhikr) => {
         const wrapper = document.createElement('div');
@@ -148,10 +148,10 @@ export function renderSettingsView() {
           wrapper.classList.add('hoverable-delete');
         }
 
-        listWrapper.appendChild(wrapper); // Add each wrapper to the list container
+        listWrapper.appendChild(wrapper);
       });
 
-      container.appendChild(listWrapper); // Append the list container
+      container.appendChild(listWrapper);
     };
 
     renderSection('Default Adhkar', defaultAdhkar, false);
