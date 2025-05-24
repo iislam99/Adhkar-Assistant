@@ -1,16 +1,16 @@
 export const defaultAdhkarList = [
-  { transliteration: 'SubhanAllah', arabic: 'سبحان الله', translation: 'Glory be to Allah', enabled: true, count: 0 },
-  { transliteration: 'Alhamdulillah', arabic: 'الحمد لله', translation: 'All praise is due to Allah', enabled: true, count: 0 },
-  { transliteration: 'Allahu Akbar', arabic: 'الله اكبر', translation: 'Allah is the Greatest', enabled: true, count: 0 },
-  { transliteration: 'La ilaha illallah', arabic: 'لا اله الا الله', translation: 'There is no deity but Allah', enabled: false, count: 0 },
-  { transliteration: 'Astaghfirullah', arabic: 'استغفر الله', translation: 'I seek forgiveness from Allah', enabled: false, count: 0 },
-  { transliteration: 'Rabbighfir li', arabic: 'رب اغفر لي', translation: 'My Lord, forgive me', enabled: false, count: 0 },
-  { transliteration: 'Subhana Rabbi al-A\'la', arabic: 'سبحان ربي الأعلى', translation: 'Glory is to my Lord, the Most High', enabled: false, count: 0 },
-  { transliteration: 'Subhana Rabbi al-\'Adheem', arabic: 'سبحان ربي العظيم', translation: 'Glory is to my Lord, the Almighty', enabled: false, count: 0 },
-  { transliteration: 'Allahumma ajirni min an-nar', arabic: 'اللهم اجرني من النار', translation: 'O Allah, protect me from the Fire', enabled: false, count: 0 },
-  { transliteration: 'Rabbana atiq riqabana min an-nar', arabic: 'ربنا اعتق رقابنا من النار', translation: 'Our Lord, save our necks from the Fire', enabled: false, count: 0 },
-  { transliteration: 'Allahumma inni as\'aluka al-Jannah', arabic: 'اللهم اني اسالك الجنة', translation: 'O Allah, I ask You for Paradise', enabled: false, count: 0 },
-  { transliteration: 'Allahumma inni a\'udhu bika min ʿadhabil-qabr', arabic: 'اللهم إني أعوذ بك من عذاب القبر', translation: 'O Allah, I seek refuge in You from the punishment of the grave', enabled: false, count: 0 },
+  { transliteration: 'SubhanAllah', arabic: 'سبحان الله', translation: 'Glory be to Allah', enabled: true, count: 0, default: true },
+  { transliteration: 'Alhamdulillah', arabic: 'الحمد لله', translation: 'All praise is due to Allah', enabled: true, count: 0, default: true },
+  { transliteration: 'Allahu Akbar', arabic: 'الله اكبر', translation: 'Allah is the Greatest', enabled: true, count: 0, default: true },
+  { transliteration: 'La ilaha illallah', arabic: 'لا اله الا الله', translation: 'There is no deity but Allah', enabled: false, count: 0, default: true },
+  { transliteration: 'Astaghfirullah', arabic: 'استغفر الله', translation: 'I seek forgiveness from Allah', enabled: false, count: 0, default: true },
+  { transliteration: 'Rabbighfir li', arabic: 'رب اغفر لي', translation: 'My Lord, forgive me', enabled: false, count: 0, default: true },
+  { transliteration: 'Subhana Rabbi al-A\'la', arabic: 'سبحان ربي الأعلى', translation: 'Glory is to my Lord, the Most High', enabled: false, count: 0, default: true },
+  { transliteration: 'Subhana Rabbi al-\'Adheem', arabic: 'سبحان ربي العظيم', translation: 'Glory is to my Lord, the Almighty', enabled: false, count: 0, default: true },
+  { transliteration: 'Allahumma ajirni min an-nar', arabic: 'اللهم اجرني من النار', translation: 'O Allah, protect me from the Fire', enabled: false, count: 0, default: true },
+  { transliteration: 'Rabbana atiq riqabana min an-nar', arabic: 'ربنا اعتق رقابنا من النار', translation: 'Our Lord, save our necks from the Fire', enabled: false, count: 0, default: true },
+  { transliteration: 'Allahumma inni as\'aluka al-Jannah', arabic: 'اللهم اني اسالك الجنة', translation: 'O Allah, I ask You for Paradise', enabled: false, count: 0, default: true },
+  { transliteration: 'Allahumma inni a\'udhu bika min ʿadhabil-qabr', arabic: 'اللهم إني أعوذ بك من عذاب القبر', translation: 'O Allah, I seek refuge in You from the punishment of the grave', enabled: false, count: 0, default: true },
 ];
 
 export function updateAdhkarList(newList) {
@@ -40,14 +40,8 @@ export function renderSettingsView() {
     container.innerHTML = '';
 
     // Split adhkar into default and custom groups
-    const isCustomDhikr = dhikr => !defaultAdhkarList.some(def =>
-      def.arabic === dhikr.arabic &&
-      def.transliteration === dhikr.transliteration &&
-      def.translation === dhikr.translation
-    );
-
-    const defaultAdhkar = adhkarList.filter(dhikr => !isCustomDhikr(dhikr));
-    const customAdhkar = adhkarList.filter(dhikr => isCustomDhikr(dhikr));
+    const defaultAdhkar = adhkarList.filter(dhikr => dhikr.default === true);
+    const customAdhkar = adhkarList.filter(dhikr => !dhikr.default);
 
     const renderSection = (title, list, deletable = false) => {
       const heading = document.createElement('h2');
@@ -64,7 +58,7 @@ export function renderSettingsView() {
         return;
       }
 
-      list.forEach((dhikr, i) => {
+      list.forEach((dhikr) => {
         const wrapper = document.createElement('div');
         wrapper.classList.add('dhikr-toggle-wrapper');
 
@@ -86,17 +80,14 @@ export function renderSettingsView() {
         const dhikrContainer = document.createElement('div');
         dhikrContainer.classList.add('dhikr-toggle-container');
 
-        // Arabic row
         const arabicRow = document.createElement('div');
         arabicRow.classList.add('dhikr-toggle-arabic');
         arabicRow.textContent = dhikr.arabic;
 
-        // Transliteration row
         const transliterationRow = document.createElement('div');
         transliterationRow.classList.add('dhikr-toggle-transliteration');
         transliterationRow.textContent = dhikr.transliteration;
 
-        // Translation row
         const translationRow = document.createElement('div');
         translationRow.classList.add('dhikr-toggle-translation');
         translationRow.textContent = dhikr.translation || '';
@@ -129,12 +120,9 @@ export function renderSettingsView() {
 
         container.appendChild(wrapper);
       });
-
     };
-
 
     renderSection('Default Adhkar', defaultAdhkar, false);
     renderSection('Custom Adhkar', customAdhkar, true);
   });
 }
-

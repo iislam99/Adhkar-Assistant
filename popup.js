@@ -102,7 +102,8 @@ document.getElementById('custom-dhikr-form').addEventListener('submit', function
       transliteration,
       translation,
       enabled: true,
-      count: 0
+      count: 0,
+      default: false
     });
     chrome.storage.sync.set({ ADHKAR_LIST: list }, () => {
       showView('main');

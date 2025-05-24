@@ -142,6 +142,7 @@ h1, h2, h3 {
   align-items: center;
   text-align: center;
   padding: 6px 0;
+  word-break: break-word;
 }
 
 .arabic {
@@ -248,8 +249,9 @@ input#interval:hover {
 label.dhikr-toggle-label {
   display: flex !important;
   flex-direction: row;
-  gap: 0.5em;
+  gap: 1em;
   color: #ffffff;
+  word-break: break-word;
 }
 
 input.dhikr-toggle-checkbox {
