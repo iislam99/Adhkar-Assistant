@@ -13,8 +13,36 @@ export const defaultAdhkarList = [
   { transliteration: 'Allahumma inni a\'udhu bika min ʿadhabil-qabr', arabic: 'اللهم إني أعوذ بك من عذاب القبر', translation: 'O Allah, I seek refuge in You from the punishment of the grave', enabled: false, count: 0, default: true },
 ];
 
-export function updateAdhkarList(newList) {
-  chrome.storage.sync.set({ ADHKAR_LIST: newList });
+export function handleCustomDhikrFormSubmit(onComplete = () => {}) {
+  const form = document.getElementById('custom-dhikr-form');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const arabic = document.getElementById('custom-arabic').value.trim();
+    const transliteration = document.getElementById('custom-transliteration').value.trim();
+    const translation = document.getElementById('custom-translation').value.trim();
+
+    if (!arabic || !transliteration || !translation) return;
+
+    chrome.storage.sync.get(['ADHKAR_LIST'], (data) => {
+      const list = data.ADHKAR_LIST || defaultAdhkarList;
+      list.push({
+        text: transliteration,
+        arabic,
+        transliteration,
+        translation,
+        enabled: true,
+        count: 0,
+        default: false
+      });
+
+      chrome.storage.sync.set({ ADHKAR_LIST: list }, () => {
+        onComplete(); // Callback to allow context-specific behavior
+        form.reset(); // Reset form fields
+      });
+    });
+  });
 }
 
 export function renderSettingsView() {

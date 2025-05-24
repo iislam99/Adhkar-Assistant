@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <style>
@@ -9,13 +10,24 @@
   </style>
   <link rel="stylesheet" href="popup.css" />
 </head>
+
 <body id="settings-view-options">
   <h1>Settings</h1>
   <label>
     Reminder Frequency (minutes):
     <input id="interval" type="number" min="1">
   </label>
+  
   <div id="dhikr-settings"></div>
+
+  <h2>Add Custom Dhikr</h2>
+  <form id="custom-dhikr-form">
+    <input type="text" id="custom-arabic" placeholder="Arabic" required><br>
+    <input type="text" id="custom-transliteration" placeholder="Transliteration" required><br>
+    <input type="text" id="custom-translation" placeholder="Translation" required><br>
+    <button type="submit" class="add-btn">Add</button>
+  </form>
   <script type="module" src="options.js"></script>
 </body>
+
 </html>

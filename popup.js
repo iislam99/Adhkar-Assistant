@@ -1,4 +1,4 @@
-import { defaultAdhkarList, renderSettingsView } from './shared.js';
+import { defaultAdhkarList, handleCustomDhikrFormSubmit, renderSettingsView } from './shared.js';
 
 function renderDhikrRow(dhikr, index) {
   return `
@@ -86,33 +86,9 @@ document.getElementById('add-custom-btn').addEventListener('click', function() {
   showView('add');
 });
 
-// Handle custom dhikr form
-document.getElementById('custom-dhikr-form').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const arabic = document.getElementById('custom-arabic').value.trim();
-  const transliteration = document.getElementById('custom-transliteration').value.trim();
-  const translation = document.getElementById('custom-translation').value.trim();
-  if (!arabic || !transliteration || !translation) return;
-
-  chrome.storage.sync.get(['ADHKAR_LIST'], (data) => {
-    const list = data.ADHKAR_LIST || defaultAdhkarList;
-    list.push({
-      text: transliteration,
-      arabic,
-      transliteration,
-      translation,
-      enabled: true,
-      count: 0,
-      default: false
-    });
-    chrome.storage.sync.set({ ADHKAR_LIST: list }, () => {
-      showView('main');
-      loadAndRender();
-      document.getElementById('custom-arabic').value = '';
-      document.getElementById('custom-transliteration').value = '';
-      document.getElementById('custom-translation').value = '';
-    });
-  });
+handleCustomDhikrFormSubmit(() => {
+  showView('main');
+  loadAndRender();
 });
 
 document.getElementById('back-from-add').addEventListener('click', function() {
