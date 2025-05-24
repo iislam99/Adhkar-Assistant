@@ -67,7 +67,6 @@ export function renderSettingsView() {
 
     container.innerHTML = '';
 
-    // Split adhkar into default and custom groups
     const defaultAdhkar = adhkarList.filter(dhikr => dhikr.default === true);
     const customAdhkar = adhkarList.filter(dhikr => !dhikr.default);
 
@@ -85,6 +84,9 @@ export function renderSettingsView() {
         container.appendChild(noCustomMsg);
         return;
       }
+
+      const listWrapper = document.createElement('div');
+      listWrapper.classList.add('dhikr-toggle-list'); // Add top border here
 
       list.forEach((dhikr) => {
         const wrapper = document.createElement('div');
@@ -146,8 +148,10 @@ export function renderSettingsView() {
           wrapper.classList.add('hoverable-delete');
         }
 
-        container.appendChild(wrapper);
+        listWrapper.appendChild(wrapper); // Add each wrapper to the list container
       });
+
+      container.appendChild(listWrapper); // Append the list container
     };
 
     renderSection('Default Adhkar', defaultAdhkar, false);

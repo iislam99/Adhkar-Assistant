@@ -66,7 +66,8 @@ h1, h2, h3 {
   color: #ffffff;
 }
 
-#settings-view-options h2 { /* Separating style for options.html to not be impacted by settings-view style */
+#settings-view-options h2 {
+  /* Separating style for options.html to not be impacted by settings-view style */
   text-align: left;
   font-weight: bold;
   margin-top: 20px;
@@ -86,7 +87,7 @@ h1, h2, h3 {
 .dhikr-row {
   display: flex;
   align-items: stretch;
-  margin-bottom: 18px;
+  margin-top: 18px;
 }
 
 .dhikr-controls {
@@ -194,7 +195,7 @@ h1, h2, h3 {
 }
 
 #add-custom-view {
-  padding-top: 40px; 
+  padding-top: 40px;
 }
 
 #dhikr-settings label {
@@ -204,14 +205,15 @@ h1, h2, h3 {
 }
 
 #settings-view {
-  padding-top: 40px; 
+  padding-top: 40px;
 }
 
 label {
   display: inline-block;
   flex-direction: column;
   color: #dcddde;
-  margin-right: 0.5em; /* space between label and input */
+  margin-right: 0.5em;
+
   margin-bottom: 12px;
   font-size: 12px;
 }
@@ -221,10 +223,10 @@ input#interval[type="number"] {
   border: 1px solid #72767d;
   color: #dcddde;
   border-radius: 4px;
-  padding: 4px 6px; /* Reduced padding */
+  padding: 4px 6px;
   font-size: 12px;
   outline: none;
-  width: 60px; /* Smaller width */
+  width: 60px;
   margin-top: 6px;
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
@@ -235,15 +237,19 @@ input#interval:hover {
   background-color: #2f3136;
 }
 
-/* ADHKAR TOGGLES */
+/* DHIKR TOGGLES */
 .dhikr-toggle-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.5em;
-  border-top: 1px solid #444;
+  border-bottom: 1px solid #444;
   position: relative;
   gap: 1em;
+}
+
+.dhikr-toggle-list {
+  border-top: 1px solid #444;
 }
 
 label.dhikr-toggle-label {
@@ -260,8 +266,8 @@ input.dhikr-toggle-checkbox {
   width: 20px;
   height: 20px;
   border-radius: 4px;
-  background-color: #2f3136; 
-  border: 2px solid #202225; 
+  background-color: #2f3136;
+  border: 2px solid #202225;
   cursor: pointer;
   position: relative;
   transition: background-color 0.2s ease, border-color 0.2s ease;
@@ -286,6 +292,13 @@ input.dhikr-toggle-checkbox {
 input.dhikr-toggle-checkbox:checked {
   background-color: #5865f2;
   border-color: #5865f2;
+}
+
+input.dhikr-toggle-checkbox:checked:hover {
+  background-color: #4752c4;
+  border-color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 input.dhikr-toggle-checkbox:checked::after {
