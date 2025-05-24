@@ -10,19 +10,25 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     const messages = [
       "Take a moment for your daily Adhkar. ✨",
       "Have you remembered Allah today? 🕋",
-      "Time to do some Dhikr and refresh your heart. 💖",
-      "Let's take a dhikr break!",
-      "Stay mindful of Allah - how about some Adhkar?",
       "Just a minute of dhikr can change your day.",
-      "Pause and say SubhanAllah, Alhamdulillah, Allahu Akbar. 💖"
+      "Pause and say SubhanAllah, Alhamdulillah, Allahu Akbar. 💖",
+      "Reset your intentions, renew your dhikr. 🔄",
+      "A heart that remembers Allah is never truly alone. 💞",
+      "Turn your stress into Sabr with dhikr. 🌧️➡️☀️",
+      
+      "\"So remember Me; I will remember you.\" (Surah Al-Baqarah, 2:152)",
+      "\"Remember your Lord inwardly with humility and reverence and in a moderate tone of voice, both morning and evening.\" (Surah Al-A'raf, 7:205)",
+      "\"Surely in the remembrance of Allah do hearts find comfort.\" (Surah Ar-Ra'd, 13:28)",
+      "\"O you who have believed, remember Allah with much remembrance.\" (Surah Al-Ahzab, 33:41)",
+      "\"And remember Allah often so you may be successful.\" (Surah Al-Anfal, 62:10)",
     ];
     
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 
     chrome.notifications.create({
       type: 'basic',
-      iconUrl: 'assets/kaaba.png',
-      title: 'Adhkar Assistant',
+      iconUrl: 'assets/Allah.png',
+      title: 'Adhkar Assistant - Let\'s do some dhikr!',
       message: randomMessage,
       priority: 2
     });

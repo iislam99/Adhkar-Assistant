@@ -17,6 +17,24 @@ body {
   max-width: 320px;
 }
 
+.logo-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 1;
+}
+
 .settings-icon {
   position: absolute;
   top: 10px;
