@@ -58,7 +58,7 @@ export function renderSettingsView() {
         const noCustomMsg = document.createElement('p');
         noCustomMsg.textContent = 'No custom adhkar found';
         noCustomMsg.style.fontStyle = 'italic';
-        noCustomMsg.style.textAlign = 'center';
+        noCustomMsg.style.textAlign = 'left';
         noCustomMsg.style.color = '#b5bac1';
         container.appendChild(noCustomMsg);
         return;
@@ -86,15 +86,23 @@ export function renderSettingsView() {
         const dhikrContainer = document.createElement('div');
         dhikrContainer.classList.add('dhikr-toggle-container');
 
+        // Arabic row
         const arabicRow = document.createElement('div');
         arabicRow.classList.add('dhikr-toggle-arabic');
-        arabicRow.textContent = `${dhikr.arabic} | ${dhikr.transliteration}`;
+        arabicRow.textContent = dhikr.arabic;
 
+        // Transliteration row
+        const transliterationRow = document.createElement('div');
+        transliterationRow.classList.add('dhikr-toggle-transliteration');
+        transliterationRow.textContent = dhikr.transliteration;
+
+        // Translation row
         const translationRow = document.createElement('div');
         translationRow.classList.add('dhikr-toggle-translation');
         translationRow.textContent = dhikr.translation || '';
 
         dhikrContainer.appendChild(arabicRow);
+        dhikrContainer.appendChild(transliterationRow);
         dhikrContainer.appendChild(translationRow);
 
         label.appendChild(checkbox);
@@ -121,6 +129,7 @@ export function renderSettingsView() {
 
         container.appendChild(wrapper);
       });
+
     };
 
 
