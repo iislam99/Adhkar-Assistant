@@ -38,3 +38,6 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     chrome.action.setBadgeBackgroundColor({ color: '#FF0000' });
   }
 });
+
+// Debugging: Log all stored data
+chrome.storage.sync.get(null, console.log);

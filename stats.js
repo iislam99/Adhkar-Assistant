@@ -53,7 +53,7 @@ function renderChart(canvas, selectedDhikrs) {
   const ctx = canvas.getContext('2d');
   if (window.currentChart) window.currentChart.destroy();
 
-  chrome.storage.sync.get(['stats'], ({ stats = {} }) => {
+  chrome.storage.sync.get(['USER_STATS'], ({ USER_STATS = {} }) => {
     const today = new Date();
     const labels = [];
 
@@ -80,7 +80,7 @@ function renderChart(canvas, selectedDhikrs) {
     }
 
     const datasets = selectedDhikrs.map((dhikr, idx) => {
-      const raw = stats[dhikr] || {};
+      const raw = USER_STATS[dhikr] || {};
       const data = dateKeys.map(dateStr => raw[dateStr] || 0);
       return {
         label: dhikr,

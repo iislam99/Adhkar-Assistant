@@ -59,7 +59,7 @@ function loadAndRender() {
 function logDhikr(dhikrName, operation) {
   const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
   
-  chrome.storage.sync.get(['stats'], ({ stats = {} }) => {
+  chrome.storage.sync.get(['USER_STATS'], ({ stats = {} }) => {
     if (!stats[dhikrName]) {
       stats[dhikrName] = {};
     }
@@ -75,7 +75,7 @@ function logDhikr(dhikrName, operation) {
       stats[dhikrName][today] -= 1;
     }
 
-    chrome.storage.sync.set({ stats }, () => {
+    chrome.storage.sync.set({ USER_STATS: stats }, () => {
       console.log(`Logged 1 count for "${dhikrName}" on ${today}. Total: ${stats[dhikrName][today]}`);
     });
   });
