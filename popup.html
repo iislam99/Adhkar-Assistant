@@ -55,18 +55,14 @@
     <!-- Statistics View -->
     <div id="stats-view" style="display:none;">
       <button class="back-btn" id="back-from-stats">&larr; Back</button>
+      <h1>Statistics</h1>
       <div id="stats-page">
-        <label for="dhikr-select">Select Dhikr (multiple allowed):</label>
-        <select id="dhikr-select" multiple size="5"></select> 
-
-        <label for="timeframe-select">Timeframe:</label>
-        <select id="timeframe-select">
-          <option value="daily">Daily</option>
-          <option value="monthly">Monthly</option>
-          <option value="yearly">Yearly</option>
-        </select>
-
-        <canvas id="stats-chart"></canvas>
+        <label for="dhikr-select">Select Adhkar (max 3):</label>
+        <div id="dhikr-select"></div>
+        <div id="chart-wrapper">
+          <canvas id="stats-chart"></canvas>
+          <div id="chart-legend"></div>
+        </div>
       </div>
     </div>
   </div>

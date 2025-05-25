@@ -230,8 +230,6 @@ label {
   flex-direction: column;
   color: #ffffff;
   margin-right: 0.5em;
-
-  margin-bottom: 12px;
   font-size: 12px;
 }
 
@@ -277,21 +275,7 @@ label.dhikr-toggle-label {
   word-break: break-word;
 }
 
-input.dhikr-toggle-checkbox {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  background-color: #2f3136;
-  border: 2px solid #202225;
-  cursor: pointer;
-  position: relative;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-  flex-shrink: 0;
-}
-
-input.dhikr-toggle-checkbox {
+input[type="checkbox"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -306,19 +290,19 @@ input.dhikr-toggle-checkbox {
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-input.dhikr-toggle-checkbox:checked {
+input[type="checkbox"]:checked {
   background-color: #5865f2;
   border-color: #5865f2;
 }
 
-input.dhikr-toggle-checkbox:checked:hover {
+input[type="checkbox"]:checked:hover {
   background-color: #4752c4;
   border-color: #ffffff;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-input.dhikr-toggle-checkbox:checked::after {
+input[type="checkbox"]:checked::after {
   content: '✔';
   position: absolute;
   top: 50%;
@@ -330,11 +314,11 @@ input.dhikr-toggle-checkbox:checked::after {
   user-select: none;
 }
 
-input.dhikr-toggle-checkbox:hover {
+input[type="checkbox"]:hover {
   border-color: #5865f2;
 }
 
-input.dhikr-toggle-checkbox:focus-visible {
+input[type="checkbox"]:focus-visible {
   outline: 2px solid #5865f2;
   outline-offset: 2px;
 }
@@ -458,11 +442,48 @@ input[type="text"]:disabled {
 }
 
 /* STATS */
+#stats-view {
+  padding-top: 40px;
+}
+
 #dhikr-select {
-  max-width: 100%;
-  white-space: nowrap;        /* prevent option text from wrapping */
-  overflow-x: auto;           /* enable horizontal scroll */
-  overflow-y: auto;           /* keep vertical scroll if needed */
-  display: block;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+#dhikr-select label {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#dhikr-select input[type="checkbox"] {
+  margin: 0 !important;
+  flex-shrink: 0;
+}
+
+#stats-dhikr-select-container {
+  max-height: 100px;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #1e1f22;
+}
+
+#chart-wrapper {
+  display: flex; 
+  flex-direction: row;
+}
+
+#chart-legend {
+  max-height: 250px; 
+  overflow-y: auto; 
+  margin-left: 10px;
 }
