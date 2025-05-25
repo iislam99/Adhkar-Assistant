@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="popup.css">
+  <script src="packages/chart.min.js"></script>
+
 </head>
 
 <body>
@@ -23,6 +25,7 @@
       </div>
       <h2>Adhkar Assistant</h2>
       <div id="dhikr-list"></div>
+      <button class="add-btn" id="stats-btn">View Statistics</button>
     </div>
 
     <!-- Settings View -->
@@ -48,8 +51,23 @@
         <button type="submit" class="add-btn">Add</button>
       </form>
     </div>
+
+    <!-- Statistics View -->
+    <div id="stats-view" style="display:none;">
+      <button class="back-btn" id="back-from-stats">&larr; Back</button>
+      <h1>Statistics</h1>
+      <div id="stats-page">
+        <label for="dhikr-select">Select Adhkar (max 3):</label>
+        <div id="dhikr-select"></div>
+        <div id="chart-wrapper">
+          <canvas id="stats-chart"></canvas>
+          <div id="chart-legend"></div>
+        </div>
+      </div>
+    </div>
   </div>
-  <script type="module" src="popup.js"></script>
+  <script defer src="stats.js" type="module"></script>
+  <script defer src="popup.js" type="module"></script>
 </body>
 
 </html>
