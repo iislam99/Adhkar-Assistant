@@ -450,9 +450,9 @@ input[type="text"]:disabled {
   padding-top: 40px;
 }
 
-#stats-view h2 {
+/* #stats-view h2 {
   padding-top: 40px;
-}
+} */
 
 #stats-view h3 {
   text-align: center;
@@ -492,6 +492,7 @@ input[type="text"]:disabled {
 #chart-wrapper {
   display: flex; 
   flex-direction: row;
+  margin-bottom: 30px;
 }
 
 #chart-legend {
