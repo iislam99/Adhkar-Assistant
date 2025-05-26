@@ -252,7 +252,7 @@ input#interval:hover {
   background-color: #2f3136;
 }
 
-/* DHIKR TOGGLES */
+/* CHECKBOXES & DHIKR TOGGLES */
 .dhikr-toggle-wrapper {
   display: flex;
   align-items: center;
@@ -358,6 +358,7 @@ div.dhikr-toggle-container {
   visibility: visible;
 }
 
+
 /* TEXTBOXES */
 input[type="text"] {
   background-color: #2f3136;
@@ -393,6 +394,7 @@ input[type="text"]:disabled {
   cursor: not-allowed;
 }
 
+
 /* BACK BUTTON */
 .back-btn {
   background: #3b3d43;
@@ -420,6 +422,7 @@ input[type="text"]:disabled {
   background: #393c43;
 }
 
+
 /* SCROLLBAR */
 ::-webkit-scrollbar {
   width: 12px;
@@ -440,6 +443,7 @@ input[type="text"]:disabled {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #4752c4;
 }
+
 
 /* STATS */
 #stats-view {

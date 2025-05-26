@@ -1,6 +1,8 @@
 import { defaultAdhkarList, handleCustomDhikrFormSubmit, renderSettingsView, getLocalDate } from './shared.js';
 import { renderStatsView } from './stats.js';
 
+
+// For syncing to cloud on unload
 const port = chrome.runtime.connect({ name: "popup" });
 window.addEventListener('unload', () => {
   const syncNeeded = localStorage.getItem('SYNC_NEEDED');
@@ -9,6 +11,8 @@ window.addEventListener('unload', () => {
   }
 });
 
+
+// Rendering adhkar
 function renderDhikrRow(dhikr, index) {
   return `
     <div class="dhikr-row" data-index="${index}" title="${dhikr.translation}">
@@ -52,7 +56,6 @@ function renderAdhkarList(list) {
   });
 }
 
-// Reload and render adhkar list
 function loadAndRender() {
   const today = getLocalDate(); // YYYY-MM-DD
 
@@ -67,6 +70,7 @@ function loadAndRender() {
     renderAdhkarList(updatedList);
   });
 }
+
 
 // Button handlers
 function logDhikr(dhikrName, operation) {
@@ -106,6 +110,7 @@ window.decrementDhikr = function(index) {
 };
 
 
+// View Handling
 function showView(view) {
   document.getElementById('main-view').style.display = view === 'main' ? '' : 'none';
   document.getElementById('settings-view').style.display = view === 'settings' ? '' : 'none';
@@ -167,6 +172,7 @@ handleCustomDhikrFormSubmit(() => {
   showView('main');
   loadAndRender();
 });
+
 
 // Initial render
 document.addEventListener('DOMContentLoaded', function () {

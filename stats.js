@@ -10,6 +10,7 @@ function computeAllTimeTotal(callback) {
   });
 }
 
+
 function computeTop5Adhkar() {
   chrome.storage.local.get(['USER_STATS'], ({ USER_STATS = {} }) => {
     const adhkarTotals = [];
@@ -45,6 +46,7 @@ function computeTop5Adhkar() {
     `;
   });
 }
+
 
 export function renderStatsView() {
   const dhikrSelect = document.getElementById('dhikr-select');

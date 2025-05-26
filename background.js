@@ -53,6 +53,46 @@ chrome.runtime.onConnect.addListener((port) => {
             chrome.storage.local.set({ SYNC_NEEDED: false });
           }
         });
+
+        // chrome.storage.local.set({USER_STATS: {}})
+
+        // chrome.storage.sync.set({USER_STATS: {}})
+
+        // chrome.storage.local.set({USER_STATS: {
+        //     "الحمد لله": {
+        //         "2025-05-25": 100,
+        //         "2025-05-26": 36
+        //     },
+        //     "الله اكبر": {
+        //         "2025-05-25": 100,
+        //         "2025-05-26": 35
+        //     },
+        //     "سبحان الله": {
+        //         "2025-05-25": 100,
+        //         "2025-05-26": 36
+        //     },
+        //     "سبحان ربي العظيم": {
+        //         "2025-05-25": 1
+        //     }
+        // }})
+
+        // chrome.storage.sync.set({USER_STATS: {
+        //     "الحمد لله": {
+        //         "2025-05-25": 100,
+        //         "2025-05-26": 36
+        //     },
+        //     "الله اكبر": {
+        //         "2025-05-25": 100,
+        //         "2025-05-26": 35
+        //     },
+        //     "سبحان الله": {
+        //         "2025-05-25": 100,
+        //         "2025-05-26": 36
+        //     },
+        //     "سبحان ربي العظيم": {
+        //         "2025-05-25": 1
+        //     }
+        // }})
       });
     });
   }
@@ -70,12 +110,12 @@ chrome.storage.sync.get(null, function(localData) {
 });
 
 // Debugging: Log all stored data
-chrome.storage.local.get(['USER_STATS'], (data) => {
-  console.log("LOCAL:", data.USER_STATS);
-});
-chrome.storage.sync.get(['USER_STATS'], (data) => {
-  console.log("CLOUD:", data.USER_STATS);
-});
+// chrome.storage.local.get(['USER_STATS'], (data) => {
+//   console.log("LOCAL:", data.USER_STATS);
+// });
+// chrome.storage.sync.get(['USER_STATS'], (data) => {
+//   console.log("CLOUD:", data.USER_STATS);
+// });
 
-// chrome.storage.local.get(null, console.log);
-// chrome.storage.local.get(null, console.log);
+chrome.storage.local.get(null, console.log);
+chrome.storage.local.get(null, console.log);
