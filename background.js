@@ -56,7 +56,7 @@ chrome.runtime.onConnect.addListener((port) => {
   }
 });
 
-// Sync cloud data to local storage on launch
+// Sync cloud data to local storage on launch if cloud data exists
 chrome.storage.sync.get(null, function(cloudData) {
   if (cloudData && Object.keys(cloudData).length > 0) {
     chrome.storage.local.set(cloudData, function() {
