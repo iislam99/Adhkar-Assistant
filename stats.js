@@ -1,3 +1,51 @@
+function computeAllTimeTotal(callback) {
+  chrome.storage.local.get(['USER_STATS'], ({ USER_STATS = {} }) => {
+    let total = 0;
+    for (const dhikr in USER_STATS) {
+      for (const date in USER_STATS[dhikr]) {
+        total += USER_STATS[dhikr][date];
+      }
+    }
+    callback(total);
+  });
+}
+
+function computeTop5Adhkar() {
+  chrome.storage.local.get(['USER_STATS'], ({ USER_STATS = {} }) => {
+    const adhkarTotals = [];
+
+    for (const dhikr in USER_STATS) {
+      const total = Object.values(USER_STATS[dhikr]).reduce((sum, count) => sum + count, 0);
+      if (total > 0) {
+        adhkarTotals.push({ dhikr, total });
+      }
+    }
+
+    const top5 = adhkarTotals
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 5);
+
+    const truncate = (text, maxLength = 40) =>
+      text.length > maxLength ? text.slice(0, maxLength - 3) + '...' : text;
+
+    const top5Container = document.getElementById('top-5-adhkar');
+    top5Container.innerHTML = `
+      <div class="all-time-stat">
+        <h3>Top 5 Adhkar</h3>
+        ${
+          top5.length === 0 
+            ? `<p style="font-style: italic; font-weight: normal;">No data available</p>`
+            : top5.map(item => `
+                <div style="font-weight: normal;">
+                  <span>${truncate(item.dhikr)}</span> - <span>${item.total.toLocaleString()}</span>
+                </div>
+              `).join('')
+        }
+      </div>
+    `;
+  });
+}
+
 export function renderStatsView() {
   const dhikrSelect = document.getElementById('dhikr-select');
   const chartCanvas = document.getElementById('stats-chart');
@@ -46,6 +94,15 @@ export function renderStatsView() {
     enforceMaxSelection();
     renderChart(chartCanvas, getCheckedValues());
   });
+
+  // All Time Stats
+  computeAllTimeTotal((total) => {
+    const totalDisplay = document.getElementById('all-time-total');
+    totalDisplay.textContent = `Total Dhikr Count: ${total.toLocaleString()}`;
+    totalDisplay.classList.add('all-time-stat');
+  });
+
+  computeTop5Adhkar();
 }
 
 
