@@ -43,79 +43,26 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 chrome.runtime.onConnect.addListener((port) => {
   if (port.name === "popup") {
     port.onDisconnect.addListener(() => {
-      console.log("Unload detected, syncing local storage to cloud...");
       chrome.storage.local.get(null, (localData) => {
         chrome.storage.sync.set(localData, () => {
           if (chrome.runtime.lastError) {
             console.error("Failed to sync local to cloud:", chrome.runtime.lastError);
           } else {
-            console.log("All local data synced to cloud successfully.");
             chrome.storage.local.set({ SYNC_NEEDED: false });
           }
         });
-
-        // chrome.storage.local.set({USER_STATS: {}})
-
-        // chrome.storage.sync.set({USER_STATS: {}})
-
-        // chrome.storage.local.set({USER_STATS: {
-        //     "الحمد لله": {
-        //         "2025-05-25": 100,
-        //         "2025-05-26": 36
-        //     },
-        //     "الله اكبر": {
-        //         "2025-05-25": 100,
-        //         "2025-05-26": 35
-        //     },
-        //     "سبحان الله": {
-        //         "2025-05-25": 100,
-        //         "2025-05-26": 36
-        //     },
-        //     "سبحان ربي العظيم": {
-        //         "2025-05-25": 1
-        //     }
-        // }})
-
-        // chrome.storage.sync.set({USER_STATS: {
-        //     "الحمد لله": {
-        //         "2025-05-25": 100,
-        //         "2025-05-26": 36
-        //     },
-        //     "الله اكبر": {
-        //         "2025-05-25": 100,
-        //         "2025-05-26": 35
-        //     },
-        //     "سبحان الله": {
-        //         "2025-05-25": 100,
-        //         "2025-05-26": 36
-        //     },
-        //     "سبحان ربي العظيم": {
-        //         "2025-05-25": 1
-        //     }
-        // }})
       });
     });
   }
 });
 
 // Sync cloud data to local storage on launch
-chrome.storage.sync.get(null, function(localData) {
-  chrome.storage.local.set(localData, function() {
-    if (chrome.runtime.lastError) {
-      console.error("Error syncing data:", chrome.runtime.lastError);
-    } else {
-      console.log("All cloud data synced to local successfully.");
-    }
-  });
+chrome.storage.sync.get(null, function(cloudData) {
+  if (cloudData && Object.keys(cloudData).length > 0) {
+    chrome.storage.local.set(cloudData, function() {
+      if (chrome.runtime.lastError) {
+        console.error("Error syncing data:", chrome.runtime.lastError);
+      }
+    });
+  }
 });
-
-// Debugging: Log all stored data
-// chrome.storage.local.get(['USER_STATS'], (data) => {
-//   console.log("LOCAL:", data.USER_STATS);
-// });
-// chrome.storage.sync.get(['USER_STATS'], (data) => {
-//   console.log("CLOUD:", data.USER_STATS);
-// });
-
-chrome.storage.local.get(null, console.log);
-chrome.storage.local.get(null, console.log);
