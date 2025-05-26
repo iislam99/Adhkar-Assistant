@@ -89,7 +89,6 @@ function logDhikr(dhikrName, operation) {
     }
 
     chrome.storage.local.set({ USER_STATS }, () => {
-      console.log(`Logged 1 count for "${dhikrName}" on ${today}. Total: ${USER_STATS[dhikrName][today]}`);
       loadAndRender();
     });
   });
