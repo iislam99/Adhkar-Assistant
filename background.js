@@ -39,24 +39,43 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   }
 });
 
+// Sync local storage to cloud storage on unload
+chrome.runtime.onConnect.addListener((port) => {
+  if (port.name === "popup") {
+    port.onDisconnect.addListener(() => {
+      console.log("Unload detected, syncing local storage to cloud...");
+      chrome.storage.local.get(null, (localData) => {
+        chrome.storage.sync.set(localData, () => {
+          if (chrome.runtime.lastError) {
+            console.error("Failed to sync local to cloud:", chrome.runtime.lastError);
+          } else {
+            console.log("All local data synced to cloud successfully.");
+            chrome.storage.local.set({ SYNC_NEEDED: false });
+          }
+        });
+      });
+    });
+  }
+});
+
 // Sync cloud data to local storage on launch
 chrome.storage.sync.get(null, function(localData) {
   chrome.storage.local.set(localData, function() {
     if (chrome.runtime.lastError) {
       console.error("Error syncing data:", chrome.runtime.lastError);
     } else {
-      console.log("All local data synced to cloud successfully.");
+      console.log("All cloud data synced to local successfully.");
     }
   });
 });
 
 // Debugging: Log all stored data
-// chrome.storage.local.get(['ADHKAR_LIST'], (data) => {
-//   console.log("LOCAL:", data.ADHKAR_LIST[13].count);
-// });
-// chrome.storage.sync.get(['ADHKAR_LIST'], (data) => {
-//   console.log("CLOUD:", data.ADHKAR_LIST[13].count);
-// });
+chrome.storage.local.get(['USER_STATS'], (data) => {
+  console.log("LOCAL:", data.USER_STATS);
+});
+chrome.storage.sync.get(['USER_STATS'], (data) => {
+  console.log("CLOUD:", data.USER_STATS);
+});
 
 // chrome.storage.local.get(null, console.log);
 // chrome.storage.local.get(null, console.log);

@@ -159,3 +159,11 @@ export function renderSettingsView() {
     renderSection('Custom Adhkar', customAdhkar, true);
   });
 }
+
+export function getLocalDate() {
+  const now = new Date(); // current local time
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // zero-padded
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}

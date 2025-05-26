@@ -1,5 +1,13 @@
-import { defaultAdhkarList, handleCustomDhikrFormSubmit, renderSettingsView } from './shared.js';
+import { defaultAdhkarList, handleCustomDhikrFormSubmit, renderSettingsView, getLocalDate } from './shared.js';
 import { renderStatsView } from './stats.js';
+
+const port = chrome.runtime.connect({ name: "popup" });
+window.addEventListener('unload', () => {
+  const syncNeeded = localStorage.getItem('SYNC_NEEDED');
+  if (syncNeeded) {
+    port.postMessage({ action: 'syncLocalToCloud' });
+  }
+});
 
 function renderDhikrRow(dhikr, index) {
   return `
@@ -46,56 +54,58 @@ function renderAdhkarList(list) {
 
 // Reload and render adhkar list
 function loadAndRender() {
-  chrome.storage.local.get(['ADHKAR_LIST'], (data) => {
-    const list = (data.ADHKAR_LIST || defaultAdhkarList).map(dhikr =>
-      ({ ...dhikr, count: dhikr.count ?? 0 })
-    );
-    window.ADHKAR_LIST = list; // Store globally for button handlers
-    renderAdhkarList(list);
+  const today = getLocalDate(); // YYYY-MM-DD
+
+  chrome.storage.local.get(['ADHKAR_LIST', 'USER_STATS'], ({ ADHKAR_LIST = defaultAdhkarList, USER_STATS = {} }) => {
+    const updatedList = ADHKAR_LIST.map(dhikr => {
+      const statCount = USER_STATS[dhikr.arabic]?.[today] ?? 0;
+      return { ...dhikr, count: statCount };
+    });
+
+    window.ADHKAR_LIST = updatedList;
+    renderAdhkarList(updatedList);
   });
 }
 
 // Button handlers
 function logDhikr(dhikrName, operation) {
-  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  localStorage.setItem('SYNC_NEEDED', true);
+  const today = getLocalDate(); // YYYY-MM-DD
   
-  chrome.storage.local.get(['USER_STATS'], ({ stats = {} }) => {
-    if (!stats[dhikrName]) {
-      stats[dhikrName] = {};
+  chrome.storage.local.get(['USER_STATS'], ({ USER_STATS = {} }) => {
+    if (!USER_STATS[dhikrName]) {
+      USER_STATS[dhikrName] = {};
     }
 
-    if (!stats[dhikrName][today]) {
-      stats[dhikrName][today] = 0;
+    if (!USER_STATS[dhikrName][today]) {
+      USER_STATS[dhikrName][today] = 0;
     }
 
     if (operation === 'increment') {
-      stats[dhikrName][today] += 1;
+      USER_STATS[dhikrName][today] += 1;
     }
-    else if (operation === 'decrement' && stats[dhikrName][today] > 0) {
-      stats[dhikrName][today] -= 1;
+    else if (operation === 'decrement' && USER_STATS[dhikrName][today] > 0) {
+      USER_STATS[dhikrName][today] -= 1;
     }
 
-    chrome.storage.local.set({ USER_STATS: stats }, () => {
-      console.log(`Logged 1 count for "${dhikrName}" on ${today}. Total: ${stats[dhikrName][today]}`);
+    chrome.storage.local.set({ USER_STATS }, () => {
+      console.log(`Logged 1 count for "${dhikrName}" on ${today}. Total: ${USER_STATS[dhikrName][today]}`);
+      loadAndRender();
     });
   });
 }
 
 window.incrementDhikr = function(index) {
-  window.ADHKAR_LIST[index].count++;
-  logDhikr(window.ADHKAR_LIST[index].arabic, 'increment');
-  chrome.storage.local.set({ ADHKAR_LIST: window.ADHKAR_LIST }, loadAndRender);
+  const dhikrName = window.ADHKAR_LIST[index].arabic;
+  logDhikr(dhikrName, 'increment');
 };
 
 window.decrementDhikr = function(index) {
-  if (window.ADHKAR_LIST[index].count > 0) {
-    logDhikr(window.ADHKAR_LIST[index].arabic, 'decrement');
-    window.ADHKAR_LIST[index].count--;
-  }
-  chrome.storage.local.set({ ADHKAR_LIST: window.ADHKAR_LIST }, loadAndRender);
+  const dhikrName = window.ADHKAR_LIST[index].arabic;
+  logDhikr(dhikrName, 'decrement');
 };
 
-// View handling
+
 function showView(view) {
   document.getElementById('main-view').style.display = view === 'main' ? '' : 'none';
   document.getElementById('settings-view').style.display = view === 'settings' ? '' : 'none';
@@ -116,12 +126,14 @@ function syncLocalToCloud() {
 }
 
 document.getElementById('settings-icon').addEventListener('click', function() {
+  localStorage.setItem('SYNC_NEEDED', false);
   syncLocalToCloud()
   renderSettingsView();
   showView('settings');
 });
 
 document.getElementById('back-from-settings').addEventListener('click', function() {
+  localStorage.setItem('SYNC_NEEDED', false);
   syncLocalToCloud()
   loadAndRender();
   showView('main');
@@ -133,17 +145,20 @@ document.getElementById('back-from-stats').addEventListener('click', function() 
 });
 
 document.getElementById('stats-btn').addEventListener('click', function() {
+  localStorage.setItem('SYNC_NEEDED', false);
   syncLocalToCloud()
   renderStatsView();
   showView('stats');
 });
 
 document.getElementById('add-custom-btn').addEventListener('click', function() {
+  localStorage.setItem('SYNC_NEEDED', false);
   syncLocalToCloud()
   showView('add');
 });
 
 document.getElementById('back-from-add').addEventListener('click', function() {
+  localStorage.setItem('SYNC_NEEDED', false);
   syncLocalToCloud()
   showView('settings');
 });
@@ -153,13 +168,9 @@ handleCustomDhikrFormSubmit(() => {
   loadAndRender();
 });
 
-window.addEventListener('beforeunload', syncLocalToCloud());
-
 // Initial render
 document.addEventListener('DOMContentLoaded', function () {
   chrome.action.setBadgeText({ text: '' });
   chrome.action.setBadgeBackgroundColor({ color: [0, 0, 0, 0] });
   loadAndRender();
 });
-
-loadAndRender();

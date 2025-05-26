@@ -54,15 +54,22 @@ function renderChart(canvas, selectedDhikrs) {
   if (window.currentChart) window.currentChart.destroy();
 
   chrome.storage.local.get(['USER_STATS'], ({ USER_STATS = {} }) => {
+    function formatLocalDateKey(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
     const today = new Date();
     const labels = [];
 
     for (let i = 6; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(today.getDate() - i);
-      const day = d.toLocaleDateString(undefined, { weekday: 'short' }) + '.'; // Mon, Tue, etc.
+      const day = d.toLocaleDateString(undefined, { weekday: 'short' }); // Mon, Tue, etc.
       const dateNum = d.getDate(); // 1–31
-      labels.push(`${day} ${dateNum}`);
+      labels.push(`${day}. ${dateNum}`);
     }
 
     const pastelColors = [
@@ -76,7 +83,7 @@ function renderChart(canvas, selectedDhikrs) {
     for (let i = 6; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(today.getDate() - i);
-      dateKeys.push(d.toISOString().slice(0, 10)); // YYYY-MM-DD
+      dateKeys.push(formatLocalDateKey(d)); // YYYY-MM-DD
     }
 
     const datasets = selectedDhikrs.map((dhikr, idx) => {
