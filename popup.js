@@ -61,6 +61,7 @@ function loadAndRender() {
       const statCount = USER_STATS[dhikr.arabic]?.[today] ?? 0;
       return { ...dhikr, count: statCount };
     });
+    chrome.storage.local.set({ ADHKAR_LIST: updatedList });
 
     window.ADHKAR_LIST = updatedList;
     renderAdhkarList(updatedList);
