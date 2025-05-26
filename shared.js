@@ -26,7 +26,7 @@ export function handleCustomDhikrFormSubmit(onComplete = () => {}) {
 
     if (!arabic || !transliteration || !translation) return;
 
-    chrome.storage.sync.get(['ADHKAR_LIST'], (data) => {
+    chrome.storage.local.get(['ADHKAR_LIST'], (data) => {
       const list = data.ADHKAR_LIST || defaultAdhkarList;
       list.push({
         text: transliteration,
@@ -38,7 +38,7 @@ export function handleCustomDhikrFormSubmit(onComplete = () => {}) {
         default: false
       });
 
-      chrome.storage.sync.set({ ADHKAR_LIST: list }, () => {
+      chrome.storage.local.set({ ADHKAR_LIST: list }, () => {
         onComplete(); // Callback to allow context-specific behavior
         form.reset();
       });
@@ -50,7 +50,7 @@ export function renderSettingsView() {
   const intervalInput = document.getElementById('interval');
   const container = document.getElementById('dhikr-settings');
 
-  chrome.storage.sync.get(['REMINDER_INTERVAL', 'ADHKAR_LIST'], (data) => {
+  chrome.storage.local.get(['REMINDER_INTERVAL', 'ADHKAR_LIST'], (data) => {
     const interval = data.REMINDER_INTERVAL || 180;
     const adhkarList = data.ADHKAR_LIST || defaultAdhkarList;
 
@@ -58,7 +58,7 @@ export function renderSettingsView() {
     intervalInput.oninput = () => {
       const val = parseInt(intervalInput.value, 10);
       if (!isNaN(val) && val > 0) {
-        chrome.storage.sync.set({ REMINDER_INTERVAL: val }, () => {
+        chrome.storage.local.set({ REMINDER_INTERVAL: val }, () => {
           chrome.alarms.clearAll(() => {
             chrome.alarms.create('ADHKAR_REMINDER', { periodInMinutes: val });
           });
@@ -104,7 +104,7 @@ export function renderSettingsView() {
           const index = adhkarList.indexOf(dhikr);
           if (index !== -1) {
             adhkarList[index].enabled = checkbox.checked;
-            chrome.storage.sync.set({ ADHKAR_LIST: adhkarList });
+            chrome.storage.local.set({ ADHKAR_LIST: adhkarList });
           }
         });
 
@@ -141,7 +141,7 @@ export function renderSettingsView() {
             const index = adhkarList.indexOf(dhikr);
             if (index !== -1) {
               const newList = [...adhkarList.slice(0, index), ...adhkarList.slice(index + 1)];
-              chrome.storage.sync.set({ ADHKAR_LIST: newList }, renderSettingsView);
+              chrome.storage.local.set({ ADHKAR_LIST: newList }, renderSettingsView);
             }
           });
 

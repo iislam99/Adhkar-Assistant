@@ -4,7 +4,7 @@ export function renderStatsView() {
   chartCanvas.height = 200;
   const MAX_SELECTION = 3;
 
-  chrome.storage.sync.get(['ADHKAR_LIST'], ({ ADHKAR_LIST = [] }) => {
+  chrome.storage.local.get(['ADHKAR_LIST'], ({ ADHKAR_LIST = [] }) => {
     const enabledDhikr = ADHKAR_LIST.filter(d => d.enabled);
 
     if (enabledDhikr.length === 0) {
@@ -53,7 +53,7 @@ function renderChart(canvas, selectedDhikrs) {
   const ctx = canvas.getContext('2d');
   if (window.currentChart) window.currentChart.destroy();
 
-  chrome.storage.sync.get(['USER_STATS'], ({ USER_STATS = {} }) => {
+  chrome.storage.local.get(['USER_STATS'], ({ USER_STATS = {} }) => {
     const today = new Date();
     const labels = [];
 

@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.get(['REMINDER_INTERVAL'], (data) => {
+  chrome.storage.local.get(['REMINDER_INTERVAL'], (data) => {
     const interval = data.REMINDER_INTERVAL || 180; // default: every 3 hours
     chrome.alarms.create('ADHKAR_REMINDER', { periodInMinutes: interval });
   });
@@ -39,5 +39,24 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   }
 });
 
+// Sync cloud data to local storage on launch
+chrome.storage.sync.get(null, function(localData) {
+  chrome.storage.local.set(localData, function() {
+    if (chrome.runtime.lastError) {
+      console.error("Error syncing data:", chrome.runtime.lastError);
+    } else {
+      console.log("All local data synced to cloud successfully.");
+    }
+  });
+});
+
 // Debugging: Log all stored data
-chrome.storage.sync.get(null, console.log);
+// chrome.storage.local.get(['ADHKAR_LIST'], (data) => {
+//   console.log("LOCAL:", data.ADHKAR_LIST[13].count);
+// });
+// chrome.storage.sync.get(['ADHKAR_LIST'], (data) => {
+//   console.log("CLOUD:", data.ADHKAR_LIST[13].count);
+// });
+
+// chrome.storage.local.get(null, console.log);
+// chrome.storage.local.get(null, console.log);
