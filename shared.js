@@ -142,6 +142,12 @@ export function renderSettingsView() {
             if (index !== -1) {
               const newList = [...adhkarList.slice(0, index), ...adhkarList.slice(index + 1)];
               chrome.storage.local.set({ ADHKAR_LIST: newList }, renderSettingsView);
+              chrome.storage.local.get(['USER_STATS'], ({ USER_STATS = {} }) => {
+                if (USER_STATS.hasOwnProperty(dhikr.arabic)) {
+                  delete USER_STATS[dhikr.arabic];
+                  chrome.storage.local.set({ USER_STATS });
+                }
+              });
             }
           });
 
