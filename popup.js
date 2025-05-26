@@ -46,7 +46,7 @@ function renderAdhkarList(list) {
 
 // Reload and render adhkar list
 function loadAndRender() {
-  chrome.storage.sync.get(['ADHKAR_LIST'], (data) => {
+  chrome.storage.local.get(['ADHKAR_LIST'], (data) => {
     const list = (data.ADHKAR_LIST || defaultAdhkarList).map(dhikr =>
       ({ ...dhikr, count: dhikr.count ?? 0 })
     );
@@ -59,7 +59,7 @@ function loadAndRender() {
 function logDhikr(dhikrName, operation) {
   const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
   
-  chrome.storage.sync.get(['USER_STATS'], ({ stats = {} }) => {
+  chrome.storage.local.get(['USER_STATS'], ({ stats = {} }) => {
     if (!stats[dhikrName]) {
       stats[dhikrName] = {};
     }
@@ -75,7 +75,7 @@ function logDhikr(dhikrName, operation) {
       stats[dhikrName][today] -= 1;
     }
 
-    chrome.storage.sync.set({ USER_STATS: stats }, () => {
+    chrome.storage.local.set({ USER_STATS: stats }, () => {
       console.log(`Logged 1 count for "${dhikrName}" on ${today}. Total: ${stats[dhikrName][today]}`);
     });
   });
@@ -84,7 +84,7 @@ function logDhikr(dhikrName, operation) {
 window.incrementDhikr = function(index) {
   window.ADHKAR_LIST[index].count++;
   logDhikr(window.ADHKAR_LIST[index].arabic, 'increment');
-  chrome.storage.sync.set({ ADHKAR_LIST: window.ADHKAR_LIST }, loadAndRender);
+  chrome.storage.local.set({ ADHKAR_LIST: window.ADHKAR_LIST }, loadAndRender);
 };
 
 window.decrementDhikr = function(index) {
@@ -92,7 +92,7 @@ window.decrementDhikr = function(index) {
     logDhikr(window.ADHKAR_LIST[index].arabic, 'decrement');
     window.ADHKAR_LIST[index].count--;
   }
-  chrome.storage.sync.set({ ADHKAR_LIST: window.ADHKAR_LIST }, loadAndRender);
+  chrome.storage.local.set({ ADHKAR_LIST: window.ADHKAR_LIST }, loadAndRender);
 };
 
 // View handling
@@ -103,12 +103,26 @@ function showView(view) {
   document.getElementById('stats-view').style.display = view === 'stats' ? '' : 'none';
 }
 
+function syncLocalToCloud() {
+  chrome.storage.local.get(null, function(localData) {
+    chrome.storage.sync.set(localData, function() {
+      if (chrome.runtime.lastError) {
+        console.error("Error syncing data:", chrome.runtime.lastError);
+      } else {
+        console.log("All local data synced to cloud successfully.");
+      }
+    });
+  });
+}
+
 document.getElementById('settings-icon').addEventListener('click', function() {
+  syncLocalToCloud()
   renderSettingsView();
   showView('settings');
 });
 
 document.getElementById('back-from-settings').addEventListener('click', function() {
+  syncLocalToCloud()
   loadAndRender();
   showView('main');
 });
@@ -119,12 +133,19 @@ document.getElementById('back-from-stats').addEventListener('click', function() 
 });
 
 document.getElementById('stats-btn').addEventListener('click', function() {
+  syncLocalToCloud()
   renderStatsView();
   showView('stats');
 });
 
 document.getElementById('add-custom-btn').addEventListener('click', function() {
+  syncLocalToCloud()
   showView('add');
+});
+
+document.getElementById('back-from-add').addEventListener('click', function() {
+  syncLocalToCloud()
+  showView('settings');
 });
 
 handleCustomDhikrFormSubmit(() => {
@@ -132,9 +153,7 @@ handleCustomDhikrFormSubmit(() => {
   loadAndRender();
 });
 
-document.getElementById('back-from-add').addEventListener('click', function() {
-  showView('settings');
-});
+window.addEventListener('beforeunload', syncLocalToCloud());
 
 // Initial render
 document.addEventListener('DOMContentLoaded', function () {
