@@ -1,9 +1,10 @@
 # Adhkar Assistant
+> **NOTE:** This project was a test to see how well ChatGPT can help me build a browser extension from scratch without me having any prior experience in this area whatsoever. The code in this repo was very heavily inspired by ChatGPT, though it required several tweaks to get it fully functional. The key takeaway I had from this experience is that I will never need to figure out CSS stylesheets myself ever again. 😄
 
 ## Overview
 Assalamu Alaikum,
 
-Adhkar Assistant is browser extension designed to help busy Muslims stay connected with their Creator throughout the day. In the midst of work and online distractions, it gently reminds you to pause, reflect, and engage in dhikr — the remembrance of Allah. Whether you're deep in tasks or caught up in daily routines, Adhkar Assistant nudges your heart back toward mindfulness with short adhkar and duas, helping you stay connected with your deen and ensuring you do not forget your purpose in this life.
+Adhkar Assistant is browser extension designed to help busy Muslims stay connected with their Creator throughout the day. In the midst of work and online distractions, it gently reminds you to pause, reflect, and engage in dhikr — the remembrance of Allah. Whether you're deep in tasks or caught up in daily routines, Adhkar Assistant nudges your heart back toward mindfulness with short adhkar and duas, helping you stay connected with your deen and ensuring you do not forget your purpose in this life. In shaa Allah we can all benefit from it.
 
 [Download here.](https://chromewebstore.google.com/detail/felaieackgpglcnbbnpgmkhpjjimmbnd?utm_source=item-share-cb)
 
