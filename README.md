@@ -1,5 +1,5 @@
 # Adhkar Assistant
-> **NOTE:** This project was a test to see how well ChatGPT can help me build a browser extension from scratch without me having any prior experience in this area whatsoever. The code in this repo was very heavily inspired by ChatGPT, though it required several tweaks to get it fully functional. The key takeaway I had from this experience is that I will never need to figure out CSS stylesheets myself ever again. 😄
+> **NOTE:** This project was a test to see how well ChatGPT can help me build a browser extension from scratch without me having any prior experience in this area whatsoever. The code in this repo was very heavily inspired by ChatGPT, though it required several tweaks to get it fully functional.
 
 ## Overview
 Assalamu Alaikum,
