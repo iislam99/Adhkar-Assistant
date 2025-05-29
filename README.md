@@ -17,3 +17,13 @@ Adhkar Assistant is browser extension designed to help busy Muslims stay connect
 - Statistics: Keep track of what adhkar you say, how much you say them, and how consistently you’ve been taking breaks to remember Allah.
 
 - Minimal & Distraction-Free: Designed to be minimalistic and easy to use.
+
+## Screenshots
+### Home Screen
+![Screenshot 1](/assets/web-store/Screenshot%201.png)
+
+### Statistics
+![Screenshot 1](/assets/web-store/Screenshot%202.png)
+
+### Settings
+![Screenshot 1](/assets/web-store/Screenshot%203.png)
