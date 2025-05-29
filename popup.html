@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+  <script src="packages/chart.min.js"></script>
+
+</head>
+
+<body>
+  <div class="container">
+    <!-- Main View -->
+    <div id="main-view">
+      <div class="logo-container">
+        <img src="assets/logo.png" alt="Logo" class="logo">
+      </div>
+      <div class="settings-icon" id="settings-icon" title="Settings">
+        <svg class="settings-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <circle class="gear-circle" cx="12" cy="12" r="3"></circle>
+          <path class="gear-path"
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z">
+          </path>
+        </svg>
+      </div>
+      <h2>Adhkar Assistant</h2>
+      <div id="dhikr-list"></div>
+      <button class="add-btn" id="stats-btn">View Statistics</button>
+    </div>
+
+    <!-- Settings View -->
+    <div id="settings-view" style="display:none;">
+      <button class="back-btn" id="back-from-settings">&larr; Back</button>
+      <h1>Settings</h1>
+      <label >
+        Reminder Frequency (minutes):
+        <input id="interval" type="number" min="1">
+      </label>
+      <div id="dhikr-settings"></div>
+      <button class="add-btn" id="add-custom-btn">Add Custom Dhikr</button>
+    </div>
+
+    <!-- Add Custom Dhikr View -->
+    <div id="add-custom-view" style="display:none;">
+      <button class="back-btn" id="back-from-add">&larr; Back</button>
+      <h2>Add Custom Dhikr</h2>
+      <form id="custom-dhikr-form">
+        <input type="text" id="custom-arabic" placeholder="Arabic" required><br>
+        <input type="text" id="custom-transliteration" placeholder="Transliteration" required><br>
+        <input type="text" id="custom-translation" placeholder="Translation" required><br>
+        <button type="submit" class="add-btn">Add</button>
+      </form>
+    </div>
+
+    <!-- Statistics View -->
+    <div id="stats-view" style="display:none;">
+      <button class="back-btn" id="back-from-stats">&larr; Back</button>
+      <h1>Statistics</h1>
+      <div>
+        <h2>Last 7 Days</h2>
+        <label for="dhikr-select">Select Adhkar (max 3):</label>
+        <div id="dhikr-select"></div>
+        <div id="chart-wrapper">
+          <canvas id="stats-chart"></canvas>
+          <div id="chart-legend"></div>
+        </div>        
+      </div>
+      <div>
+        <h2>All Time</h2>
+        <div id="all-time-total"></div>
+        <div id="top-5-adhkar"></div>        
+      </div>
+    </div>
+  </div>
+  <script defer src="stats.js" type="module"></script>
+  <script defer src="popup.js" type="module"></script>
+</body>
+
+</html>
